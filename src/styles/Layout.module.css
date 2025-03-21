@@ -1,0 +1,66 @@
+.nav {
+  display: flex;
+  margin: auto;
+  max-width: 1024px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navBrand {
+  padding: 0 16px;
+  font-weight: 600;
+}
+
+.navItem,
+.navLink,
+.navBrand {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.desktopMenu {
+  display: none;
+}
+
+.mobileNavList {
+  flex-direction: column;
+  list-style: none;
+  display: flex;
+}
+
+.mobileNavItem {
+  line-height: 1.65;
+  font-weight: 600;
+}
+
+.mobileNavLink {
+  padding: 4px 48px;
+  color: var(--secondary-text-color);
+  display: block;
+  width: 100%;
+}
+
+@media (width >= 48rem) {
+  .nav {
+    padding: 0 14px;
+
+    > .navList {
+      display: contents;
+    }
+  }
+
+  .hamburgerMenu {
+    display: none;
+  }
+
+  .navButton {
+    width: 100%;
+  }
+
+  .navLink,
+  .navButton,
+  .navBrand {
+    padding: 0 8px;
+  }
+}
