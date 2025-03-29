@@ -9,7 +9,7 @@ const MobileMenu = ({ onClose, children }) => (
       aria-label="Cancel"
       onClick={onClose}
     >
-      <X className={styles.closeIcon} />
+      <X size={18} />
     </button>
     {children}
   </div>

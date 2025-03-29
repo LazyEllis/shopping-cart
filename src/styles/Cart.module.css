@@ -1,0 +1,18 @@
+.container {
+  padding: 0 48px;
+}
+
+.cartTitle {
+  font-size: inherit;
+  margin-bottom: 30px;
+}
+
+.storeLink {
+  font-size: initial;
+  color: #06c;
+  text-decoration: underline;
+
+  &:hover {
+    color: #06c;
+  }
+}

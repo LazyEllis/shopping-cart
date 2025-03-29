@@ -4,6 +4,7 @@
   max-width: 1024px;
   justify-content: space-between;
   align-items: center;
+  height: 48px;
 }
 
 .navBrand {
@@ -19,7 +20,8 @@
   align-items: center;
 }
 
-.desktopMenu {
+.desktopMenu,
+.flyout {
   display: none;
 }
 
@@ -47,6 +49,20 @@
 
     > .navList {
       display: contents;
+    }
+  }
+
+  .flyout {
+    display: block;
+    background-color: var(--secondary-bg-color);
+    font-size: 1.75rem;
+    position: absolute;
+    width: 100%;
+
+    > * {
+      padding: 32px 22px 80px;
+      max-width: 1024px;
+      margin: auto;
     }
   }
 

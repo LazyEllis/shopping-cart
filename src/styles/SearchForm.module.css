@@ -1,0 +1,26 @@
+.searchForm {
+  padding: 0 48px;
+  display: flex;
+}
+
+.searchInput {
+  width: 100%;
+  font-weight: 600;
+  display: block;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+.searchButton {
+  flex-shrink: 0;
+  width: 38px;
+
+  &:disabled {
+    cursor: auto;
+  }
+
+  &:last-child {
+    order: -1;
+  }
+}
