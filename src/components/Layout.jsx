@@ -22,6 +22,7 @@ const Layout = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
+  const [products, setProducts] = useState([]);
   const isDesktop = useIsDesktop();
 
   const handleNavbarOpen = () => setIsNavbarOpen(true);
@@ -52,6 +53,18 @@ const Layout = () => {
     document.addEventListener("mousedown", closeFlyout);
     return () => document.removeEventListener("mousedown", closeFlyout);
   }, [isCartOpen, isDesktop, isSearchBarOpen]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const response = await fetch("https://fakestoreapi.com/products", {
+        mode: "cors",
+      });
+      const data = await response.json();
+      setProducts(data);
+    };
+
+    getProducts();
+  }, []);
 
   return (
     <>
@@ -145,7 +158,7 @@ const Layout = () => {
         )}
       </nav>
       <main>
-        <Outlet context={[cart, setCart]} />
+        <Outlet context={{ cart, setCart, products }} />
       </main>
     </>
   );
