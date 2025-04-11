@@ -38,6 +38,12 @@ a {
   }
 }
 
+nav {
+  background-color: var(--primary-bg-color);
+  position: sticky;
+  top: 0;
+}
+
 button {
   border: none;
   cursor: pointer;
