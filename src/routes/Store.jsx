@@ -27,7 +27,7 @@ const Store = () => {
             <div className={styles.cardShelf}>
               {categorizedProducts.map((product) => (
                 <Link
-                  to={`products/${product.id}`}
+                  to={`/store/${product.id}`}
                   className={styles.card}
                   key={product.id}
                 >
@@ -53,7 +53,7 @@ const Store = () => {
               <div className={styles.cardShelf}>
                 {categorizedProducts[category].map((product) => (
                   <Link
-                    to={`products/${product.id}`}
+                    to={`/store/${product.id}`}
                     className={styles.card}
                     key={product.id}
                   >

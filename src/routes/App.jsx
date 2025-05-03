@@ -26,7 +26,7 @@ const App = () => {
                 {toTitleCase(product.category)}
               </p>
             </div>
-            <Link to={`product/${product.id}`} className={styles.actionLink}>
+            <Link to={`store/${product.id}`} className={styles.actionLink}>
               Learn more
             </Link>
           </div>
