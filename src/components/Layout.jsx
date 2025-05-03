@@ -10,10 +10,10 @@ import styles from "../styles/Layout.module.css";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Store", href: "store" },
-  { name: "Electronics", href: "store?categories=electronics" },
-  { name: "Jewelry", href: "store?categories=jewelry" },
-  { name: "Men's Clothing", href: "store?categories=men-clothing" },
-  { name: "Women's Clothing", href: "store?categories=women-clothing" },
+  { name: "Men's Clothing", href: "store?category=men's clothing" },
+  { name: "Jewelery", href: "store?category=jewelery" },
+  { name: "Electronics", href: "store?category=electronics" },
+  { name: "Women's Clothing", href: "store?category=women's clothing" },
 ];
 
 const Layout = () => {

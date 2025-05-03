@@ -1,15 +1,16 @@
-import { useOutletContext, Link } from "react-router-dom";
+import { useOutletContext, Link, useSearchParams } from "react-router-dom";
 import { formatProductText, toTitleCase, formatCurrency } from "../utils/utils";
 import styles from "../styles/Store.module.css";
 
 const Store = () => {
   const { products } = useOutletContext();
+  const [searchParams] = useSearchParams();
 
-  // Group products according to category
-  const groupedProducts = Object.groupBy(
-    products,
-    (product) => product.category
-  );
+  const category = searchParams.get("category");
+
+  const categorizedProducts = category
+    ? products.filter((product) => product.category === category) // Filter products by the specified category
+    : Object.groupBy(products, (product) => product.category); // Group all products by their category if no category is specified
 
   return (
     <>
@@ -20,11 +21,11 @@ const Store = () => {
         </span>
       </div>
       <div className={styles.container}>
-        {Object.keys(groupedProducts).map((category) => (
-          <section id={category} key={category}>
+        {category ? (
+          <section key={category}>
             <h2 className={styles.categoryHeading}>{toTitleCase(category)}</h2>
             <div className={styles.cardShelf}>
-              {groupedProducts[category].map((product) => (
+              {categorizedProducts.map((product) => (
                 <Link
                   to={`products/${product.id}`}
                   className={styles.card}
@@ -43,7 +44,34 @@ const Store = () => {
               ))}
             </div>
           </section>
-        ))}
+        ) : (
+          Object.keys(categorizedProducts).map((category) => (
+            <section key={category}>
+              <h2 className={styles.categoryHeading}>
+                {toTitleCase(category)}
+              </h2>
+              <div className={styles.cardShelf}>
+                {categorizedProducts[category].map((product) => (
+                  <Link
+                    to={`products/${product.id}`}
+                    className={styles.card}
+                    key={product.id}
+                  >
+                    <div className={styles.cardText}>
+                      <div className={styles.cardTitle}>
+                        {formatProductText(product.title)}
+                      </div>
+                      <div>{formatCurrency(product.price)}</div>
+                    </div>
+                    <div className={styles.imageContainer}>
+                      <img src={product.image} alt="" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ))
+        )}
       </div>
     </>
   );
