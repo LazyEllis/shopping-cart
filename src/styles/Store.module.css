@@ -1,0 +1,66 @@
+.header {
+  padding: 56px 0 24px;
+
+  > * {
+    display: inline;
+  }
+}
+
+.subtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--secondary-text-color);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.categoryHeading {
+  margin-bottom: 32px;
+}
+
+.cardShelf {
+  display: flex;
+  gap: 20px;
+  overflow-x: scroll;
+}
+
+.card {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 28px;
+  border-radius: 18px;
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.cardText {
+  padding: 28px;
+}
+
+.cardTitle {
+  padding: 23px 0 6px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.imageContainer {
+  text-align: center;
+  margin: auto;
+}
+
+@media (width >= 40rem) {
+  .card {
+    width: 309px;
+  }
+}
+
+@media (width >= 48rem) {
+  .card {
+    width: 400px;
+  }
+}
