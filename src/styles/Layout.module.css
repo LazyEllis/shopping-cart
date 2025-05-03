@@ -38,9 +38,12 @@
 
 .mobileNavLink {
   padding: 4px 48px;
-  color: var(--secondary-text-color);
   display: block;
   width: 100%;
+}
+
+.main {
+  margin: 0 22px;
 }
 
 @media (width >= 48rem) {
@@ -78,5 +81,17 @@
   .navButton,
   .navBrand {
     padding: 0 8px;
+  }
+}
+
+@media (width >= 64rem) {
+  .main {
+    margin-inline: calc(-268.46154px + 28.36538vw);
+  }
+}
+
+@media (width >= 96rem) {
+  .main {
+    margin: 0 140px;
   }
 }

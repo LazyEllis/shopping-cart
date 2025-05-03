@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useIsDesktop } from "../utils/useIsDesktop";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu } from "lucide-react";
 import SearchForm from "./SearchForm";
 import Cart from "./Cart";
@@ -24,6 +24,7 @@ const Layout = () => {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const isDesktop = useIsDesktop();
+  const location = useLocation();
 
   const handleNavbarOpen = () => setIsNavbarOpen(true);
 
@@ -157,7 +158,7 @@ const Layout = () => {
           </MobileMenu>
         )}
       </nav>
-      <main>
+      <main className={location.pathname !== "/" ? styles.main : undefined}>
         <Outlet context={{ cart, setCart, products }} />
       </main>
     </>
