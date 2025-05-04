@@ -1,0 +1,96 @@
+.header,
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header {
+  padding-top: 38px;
+}
+
+.container {
+  margin-top: 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.imageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 35px;
+  border-radius: 18px;
+  min-height: 246px;
+  background-color: var(--secondary-bg-color);
+}
+
+.productTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.productImage {
+  max-width: 100%;
+}
+
+.productText {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+.quantitySetter {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quantityToggle {
+  width: 18px;
+  color: var(--primary-bg-link);
+
+  &:hover {
+    color: var(--primary-bg-link-hover);
+  }
+}
+
+.buttonIcon {
+  height: 18px;
+}
+
+.addToCartBtn {
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-size: inherit;
+  width: 100%;
+  color: var(--primary-text-link);
+  background-color: var(--primary-bg-link);
+
+  &:hover {
+    color: var(--primary-text-link);
+    background-color: var(--primary-bg-link-hover);
+  }
+}
+
+@media (width >= 48rem) {
+  .container {
+    flex-direction: row;
+    gap: 60px;
+  }
+
+  .productImage {
+    max-height: 100%;
+  }
+
+  .imageContainer {
+    max-height: 592px;
+    flex: 1;
+  }
+
+  .productText {
+    flex-basis: 328px;
+    flex-shrink: 0;
+  }
+}

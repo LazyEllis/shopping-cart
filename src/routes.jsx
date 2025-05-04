@@ -1,6 +1,7 @@
 import Layout from "./components/Layout";
 import App from "./routes/App";
 import Store from "./routes/Store";
+import Product from "./routes/Product";
 
 const routes = [
   {
@@ -9,6 +10,7 @@ const routes = [
     children: [
       { index: true, element: <App /> },
       { path: "store", element: <Store /> },
+      { path: "store/:productId", element: <Product /> },
     ],
   },
 ];
