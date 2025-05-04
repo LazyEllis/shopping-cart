@@ -53,6 +53,10 @@
   margin: auto;
 }
 
+.productImage {
+  width: 70%;
+}
+
 @media (width >= 40rem) {
   .card {
     width: 309px;

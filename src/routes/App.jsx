@@ -30,7 +30,7 @@ const App = () => {
               Learn more
             </Link>
           </div>
-          <img src={product.image} alt="" />
+          <img src={product.image} alt="" className={styles.productImage} />
         </div>
       ))}
     </section>

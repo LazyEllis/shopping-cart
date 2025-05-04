@@ -49,8 +49,9 @@
   }
 }
 
-img {
+.productImage {
   max-width: 70%;
+  max-height: 70%;
 }
 
 @media (width >= 48rem) {

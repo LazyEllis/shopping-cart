@@ -50,14 +50,19 @@ button {
   background-color: inherit;
   color: inherit;
 
+  &:has(svg) {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+nav button {
   &:hover {
     color: var(--text-color-hover);
   }
 
   &:has(svg) {
     width: 48px;
-    display: flex;
-    justify-content: center;
   }
 
   svg {

@@ -38,7 +38,11 @@ const Store = () => {
                     <div>{formatCurrency(product.price)}</div>
                   </div>
                   <div className={styles.imageContainer}>
-                    <img src={product.image} alt="" />
+                    <img
+                      src={product.image}
+                      alt=""
+                      className={styles.productImage}
+                    />
                   </div>
                 </Link>
               ))}
@@ -64,7 +68,11 @@ const Store = () => {
                       <div>{formatCurrency(product.price)}</div>
                     </div>
                     <div className={styles.imageContainer}>
-                      <img src={product.image} alt="" />
+                      <img
+                        src={product.image}
+                        alt=""
+                        className={styles.productImage}
+                      />
                     </div>
                   </Link>
                 ))}
