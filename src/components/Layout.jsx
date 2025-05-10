@@ -3,7 +3,7 @@ import { useIsDesktop } from "../utils/useIsDesktop";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu } from "lucide-react";
 import SearchForm from "./SearchForm";
-import Cart from "./Cart";
+import CartPanel from "./CartPanel";
 import MobileMenu from "./MobileMenu";
 import styles from "../styles/Layout.module.css";
 
@@ -19,7 +19,7 @@ const navigation = [
 const Layout = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartPanelOpen, setIsCartPanelOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
@@ -34,26 +34,26 @@ const Layout = () => {
 
   const handleSearchBarClose = () => setIsSearchBarOpen(false);
 
-  const handleCartOpen = () => setIsCartOpen(true);
+  const handleCartPanelOpen = () => setIsCartPanelOpen(true);
 
-  const handleCartClose = () => setIsCartOpen(false);
+  const handleCartPanelClose = () => setIsCartPanelOpen(false);
 
   const handleChange = (e) => setSearchTerm(e.target.value);
 
   const handleReset = () => setSearchTerm("");
 
   useEffect(() => {
-    if ((!isSearchBarOpen && !isCartOpen) || !isDesktop) return;
+    if ((!isSearchBarOpen && !isCartPanelOpen) || !isDesktop) return;
 
     const closeFlyout = (e) => {
       if (!e.target.closest(`.${styles.flyout}`)) {
-        isSearchBarOpen ? handleSearchBarClose() : handleCartClose();
+        isSearchBarOpen ? handleSearchBarClose() : handleCartPanelClose();
       }
     };
 
     document.addEventListener("mousedown", closeFlyout);
     return () => document.removeEventListener("mousedown", closeFlyout);
-  }, [isCartOpen, isDesktop, isSearchBarOpen]);
+  }, [isCartPanelOpen, isDesktop, isSearchBarOpen]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -97,7 +97,7 @@ const Layout = () => {
               <button
                 className={styles.navButton}
                 aria-label="Cart"
-                onClick={handleCartOpen}
+                onClick={handleCartPanelOpen}
               >
                 <ShoppingBag size={17} />
               </button>
@@ -133,14 +133,14 @@ const Layout = () => {
             </MobileMenu>
           ))}
 
-        {isCartOpen &&
+        {isCartPanelOpen &&
           (isDesktop ? (
             <div className={styles.flyout}>
-              <Cart />
+              <CartPanel cart={cart} products={products} />
             </div>
           ) : (
-            <MobileMenu onClose={handleCartClose}>
-              <Cart />
+            <MobileMenu onClose={handleCartPanelClose}>
+              <CartPanel cart={cart} products={products} />
             </MobileMenu>
           ))}
 
@@ -159,7 +159,7 @@ const Layout = () => {
         )}
       </nav>
       <main className={location.pathname !== "/" ? styles.main : undefined}>
-        <Outlet context={{ cart, setCart, products }} />
+        <Outlet context={{ products, cart, setCart }} />
       </main>
     </>
   );

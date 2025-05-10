@@ -6,12 +6,27 @@ import styles from "../styles/Product.module.css";
 
 const Product = () => {
   const [quantity, setQuantity] = useState(1);
-  const { products } = useOutletContext();
+  const { products, cart, setCart } = useOutletContext();
   const { productId } = useParams();
 
   const increaseQuantity = () => setQuantity(quantity + 1);
 
   const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
+
+  const handleAddToCart = () => {
+    const isInCart = cart.some((product) => product.id === parseInt(productId));
+
+    if (isInCart) {
+      const updatedCart = cart.map((product) =>
+        product.id === parseInt(productId)
+          ? { ...product, quantity: product.quantity + 1 }
+          : product
+      );
+      setCart(updatedCart);
+    } else {
+      setCart([...cart, { id: parseInt(productId), quantity: 1 }]);
+    }
+  };
 
   const product = products.find(
     (product) => product.id === parseInt(productId)
@@ -52,7 +67,9 @@ const Product = () => {
             </div>
           </div>
           <p>{product.description}</p>
-          <button className={styles.addToCartBtn}>Add to Bag</button>
+          <button className={styles.addToCartBtn} onClick={handleAddToCart}>
+            Add to Bag
+          </button>
         </div>
       </div>
     </>
