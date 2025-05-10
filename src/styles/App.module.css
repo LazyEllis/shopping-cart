@@ -45,7 +45,6 @@
 
   &:hover {
     background-color: var(--primary-bg-link-hover);
-    color: var(--primary-text-link);
   }
 }
 
