@@ -1,0 +1,37 @@
+.container {
+  max-width: 1024px;
+  margin: auto;
+}
+
+.header {
+  display: grid;
+  padding-top: 58px;
+  gap: 19px;
+}
+
+.heading {
+  font-size: 1.75rem;
+}
+
+.totalPrice {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3125rem;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.continueShoppingBtn {
+  display: block;
+  text-align: center;
+  margin-top: 27px;
+  padding: 17px 30px;
+  color: var(--primary-bg-link);
+  border: 1px solid var(--primary-bg-link);
+  border-radius: 12px;
+
+  &:hover {
+    color: var(--primary-text-link);
+    background-color: var(--primary-bg-link);
+  }
+}

@@ -43,7 +43,9 @@ const CartPanel = ({ cart, products }) => (
     </div>
     {cart.length > 0 && (
       <div className={styles.panelRight}>
-        <Link className={styles.btn}>Review Bag</Link>
+        <Link to="/shop/bag" className={styles.btn}>
+          Review Bag
+        </Link>
       </div>
     )}
   </div>

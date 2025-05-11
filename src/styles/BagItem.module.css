@@ -1,0 +1,77 @@
+.itemContent,
+.itemDescription,
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemContent,
+.itemDescription {
+  gap: 10px;
+}
+
+.itemContent {
+  font-size: 1.3125rem;
+  font-weight: 700;
+}
+
+.item {
+  padding: 78px 0 55px;
+  gap: 41px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.itemImage {
+  width: 203px;
+  align-self: center;
+  mix-blend-mode: multiply;
+  z-index: -1;
+}
+
+.priceControls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.quantitySetter {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quantityToggle {
+  width: 18px;
+  color: var(--primary-bg-link);
+
+  &:hover {
+    color: var(--primary-bg-link-hover);
+  }
+}
+
+.removeItemBtn {
+  font-size: 1rem;
+  margin-top: 7px;
+  align-self: flex-end;
+  text-decoration: underline;
+  color: var(--primary-bg-link);
+}
+
+@media (width >= 48rem) {
+  .item,
+  .itemDescription {
+    flex-direction: row;
+  }
+
+  .itemContent {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .itemDescription {
+    justify-content: space-between;
+
+    > * {
+      display: contents;
+    }
+  }
+}
