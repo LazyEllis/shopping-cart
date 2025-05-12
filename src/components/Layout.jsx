@@ -46,7 +46,17 @@ const Layout = () => {
     if ((!isSearchBarOpen && !isCartPanelOpen) || !isDesktop) return;
 
     const closeFlyout = (e) => {
-      if (!e.target.closest(`.${styles.flyout}`)) {
+      if (e.target.closest(`.${styles.flyout}`)) {
+        return;
+      } else if (
+        e.target.closest(`.${styles.navButton}`)?.ariaLabel === "Search"
+      ) {
+        isCartPanelOpen && handleCartPanelClose();
+      } else if (
+        e.target.closest(`.${styles.navButton}`)?.ariaLabel === "Cart"
+      ) {
+        isSearchBarOpen && handleSearchBarClose();
+      } else {
         isSearchBarOpen ? handleSearchBarClose() : handleCartPanelClose();
       }
     };
@@ -88,7 +98,9 @@ const Layout = () => {
               <button
                 className={styles.navButton}
                 aria-label="Search"
-                onClick={handleSearchBarOpen}
+                onClick={
+                  isSearchBarOpen ? handleSearchBarClose : handleSearchBarOpen
+                }
               >
                 <Search size={17} />
               </button>
@@ -97,7 +109,9 @@ const Layout = () => {
               <button
                 className={styles.navButton}
                 aria-label="Cart"
-                onClick={handleCartPanelOpen}
+                onClick={
+                  isCartPanelOpen ? handleCartPanelClose : handleCartPanelOpen
+                }
               >
                 <ShoppingBag size={17} />
               </button>
