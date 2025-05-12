@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { formatProductText } from "../utils/utils";
 import styles from "../styles/CartPanel.module.css";
 
-const CartPanel = ({ cart, products }) => (
+const CartPanel = ({ cart, products, onRedirect }) => (
   <div className={styles.container}>
     <div>
       <h2 className={styles.cartTitle}>
@@ -16,7 +16,11 @@ const CartPanel = ({ cart, products }) => (
             );
             return (
               <li className={styles.cartListItem} key={entry.id}>
-                <Link to={`/store/${entry.id}`} className={styles.product}>
+                <Link
+                  to={`/store/${entry.id}`}
+                  onClick={onRedirect}
+                  className={styles.product}
+                >
                   <img
                     src={cartProduct.image}
                     alt=""
@@ -36,14 +40,14 @@ const CartPanel = ({ cart, products }) => (
           })}
         </ul>
       ) : (
-        <Link to="store" className={styles.storeLink}>
+        <Link to="store" onClick={onRedirect} className={styles.storeLink}>
           Shop Now
         </Link>
       )}
     </div>
     {cart.length > 0 && (
       <div className={styles.panelRight}>
-        <Link to="/shop/bag" className={styles.btn}>
+        <Link to="/shop/bag" onClick={onRedirect} className={styles.btn}>
           Review Bag
         </Link>
       </div>

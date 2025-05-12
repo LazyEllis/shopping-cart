@@ -136,11 +136,19 @@ const Layout = () => {
         {isCartPanelOpen &&
           (isDesktop ? (
             <div className={styles.flyout}>
-              <CartPanel cart={cart} products={products} />
+              <CartPanel
+                cart={cart}
+                products={products}
+                onRedirect={handleCartPanelClose}
+              />
             </div>
           ) : (
             <MobileMenu onClose={handleCartPanelClose}>
-              <CartPanel cart={cart} products={products} />
+              <CartPanel
+                cart={cart}
+                products={products}
+                onRedirect={handleCartPanelClose}
+              />
             </MobileMenu>
           ))}
 
@@ -149,7 +157,11 @@ const Layout = () => {
             <ul className={styles.mobileNavList}>
               {navigation.map((item) => (
                 <li key={item.name} className={styles.mobileNavItem}>
-                  <Link to={item.href} className={styles.mobileNavLink}>
+                  <Link
+                    to={item.href}
+                    onClick={handleNavbarClose}
+                    className={styles.mobileNavLink}
+                  >
                     {item.name}
                   </Link>
                 </li>
