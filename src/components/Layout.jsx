@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useIsDesktop } from "../utils/useIsDesktop";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu } from "lucide-react";
+import { matchesSearchTerm } from "../utils/utils";
 import SearchForm from "./SearchForm";
 import CartPanel from "./CartPanel";
 import MobileMenu from "./MobileMenu";
@@ -26,13 +27,20 @@ const Layout = () => {
   const isDesktop = useIsDesktop();
   const location = useLocation();
 
+  const searchResults = products.filter((product) =>
+    matchesSearchTerm(product.title, searchTerm)
+  );
+
   const handleNavbarOpen = () => setIsNavbarOpen(true);
 
   const handleNavbarClose = () => setIsNavbarOpen(false);
 
   const handleSearchBarOpen = () => setIsSearchBarOpen(true);
 
-  const handleSearchBarClose = () => setIsSearchBarOpen(false);
+  const handleSearchBarClose = () => {
+    setIsSearchBarOpen(false);
+    setSearchTerm("");
+  };
 
   const handleCartPanelOpen = () => setIsCartPanelOpen(true);
 
@@ -134,7 +142,9 @@ const Layout = () => {
               <SearchForm
                 onChange={handleChange}
                 onReset={handleReset}
+                onRedirect={handleSearchBarClose}
                 value={searchTerm}
+                results={searchResults}
               />
             </div>
           ) : (
@@ -142,7 +152,9 @@ const Layout = () => {
               <SearchForm
                 onChange={handleChange}
                 onReset={handleReset}
+                onRedirect={handleSearchBarClose}
                 value={searchTerm}
+                results={searchResults}
               />
             </MobileMenu>
           ))}

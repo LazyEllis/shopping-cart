@@ -12,3 +12,16 @@ export const toTitleCase = (string) =>
     /\w\S*/g,
     (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
   );
+
+export const matchesSearchTerm = (text, searchTerm) => {
+  const normalizedText = formatProductText(text.toLowerCase());
+  const normalizedSearchTerm = searchTerm.toLowerCase().trim();
+
+  return (
+    normalizedSearchTerm !== "" &&
+    normalizedText.includes(normalizedSearchTerm) &&
+    normalizedText
+      .split(" ")
+      .some((token) => token.startsWith(normalizedSearchTerm.split(" ")[0]))
+  );
+};
