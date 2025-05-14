@@ -1,5 +1,6 @@
-import { useOutletContext, Link, useSearchParams } from "react-router-dom";
-import { formatProductText, toTitleCase, formatCurrency } from "../utils/utils";
+import { useOutletContext, useSearchParams } from "react-router-dom";
+import { matchesSearchTerm } from "../utils/utils";
+import CardShelf from "../components/CardShelf";
 import styles from "../styles/Store.module.css";
 
 const Store = () => {
@@ -7,10 +8,24 @@ const Store = () => {
   const [searchParams] = useSearchParams();
 
   const category = searchParams.get("category");
+  const searchTerm = searchParams.get("search");
 
-  const categorizedProducts = category
-    ? products.filter((product) => product.category === category) // Filter products by the specified category
-    : Object.groupBy(products, (product) => product.category); // Group all products by their category if no category is specified
+  let categorizedProducts;
+
+  if (category) {
+    categorizedProducts = products.filter(
+      (product) => product.category === category // If the URL contains a category query, filter the products by that category.
+    );
+  } else if (searchTerm) {
+    categorizedProducts = products.filter(
+      (product) => matchesSearchTerm(product.title, searchTerm) // If the URL contains a search query, filter products based on the search term.
+    );
+  } else {
+    categorizedProducts = Object.groupBy(
+      products,
+      (product) => product.category // If neither query is present, group the products by their category.
+    );
+  }
 
   return (
     <>
@@ -21,63 +36,19 @@ const Store = () => {
         </span>
       </div>
       <div className={styles.container}>
-        {category ? (
-          <section key={category}>
-            <h2 className={styles.categoryHeading}>{toTitleCase(category)}</h2>
-            <div className={styles.cardShelf}>
-              {categorizedProducts.map((product) => (
-                <Link
-                  to={`/store/${product.id}`}
-                  className={styles.card}
-                  key={product.id}
-                >
-                  <div className={styles.cardText}>
-                    <div className={styles.cardTitle}>
-                      {formatProductText(product.title)}
-                    </div>
-                    <div>{formatCurrency(product.price)}</div>
-                  </div>
-                  <div className={styles.imageContainer}>
-                    <img
-                      src={product.image}
-                      alt=""
-                      className={styles.productImage}
-                    />
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
+        {category || searchTerm ? (
+          <CardShelf
+            heading={category || searchTerm}
+            products={categorizedProducts}
+            isSearch={searchTerm}
+          />
         ) : (
           Object.keys(categorizedProducts).map((category) => (
-            <section key={category}>
-              <h2 className={styles.categoryHeading}>
-                {toTitleCase(category)}
-              </h2>
-              <div className={styles.cardShelf}>
-                {categorizedProducts[category].map((product) => (
-                  <Link
-                    to={`/store/${product.id}`}
-                    className={styles.card}
-                    key={product.id}
-                  >
-                    <div className={styles.cardText}>
-                      <div className={styles.cardTitle}>
-                        {formatProductText(product.title)}
-                      </div>
-                      <div>{formatCurrency(product.price)}</div>
-                    </div>
-                    <div className={styles.imageContainer}>
-                      <img
-                        src={product.image}
-                        alt=""
-                        className={styles.productImage}
-                      />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </section>
+            <CardShelf
+              heading={category}
+              products={categorizedProducts[category]}
+              key={category}
+            />
           ))
         )}
       </div>
