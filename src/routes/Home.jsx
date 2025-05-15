@@ -1,8 +1,8 @@
 import { useOutletContext, Link } from "react-router-dom";
 import { formatProductText, toTitleCase } from "../utils/utils";
-import styles from "../styles/App.module.css";
+import styles from "../styles/Home.module.css";
 
-const App = () => {
+const Home = () => {
   const { products } = useOutletContext();
 
   // Gets the highest rated product from each category
@@ -37,4 +37,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;
