@@ -1,3 +1,7 @@
+.navContainer:has(.nav:not(:only-child)) + .loadingOrError > * {
+  animation: none;
+}
+
 .nav {
   display: flex;
   margin: auto;
@@ -52,8 +56,16 @@
   width: 100%;
 }
 
-.main {
+.subPageMain,
+.loadingOrError {
   margin: 0 22px;
+}
+
+.loadingOrError {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 48px);
 }
 
 @media (width >= 48rem) {
@@ -85,13 +97,13 @@
 }
 
 @media (width >= 64rem) {
-  .main {
+  .subPageMain {
     margin-inline: calc(-268.46154px + 28.36538vw);
   }
 }
 
 @media (width >= 96rem) {
-  .main {
+  .subPageMain {
     margin: 0 140px;
   }
 }

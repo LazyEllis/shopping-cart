@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useIsDesktop } from "../utils/useIsDesktop";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu } from "lucide-react";
 import { matchesSearchTerm } from "../utils/utils";
 import SearchForm from "./SearchForm";
 import CartPanel from "./CartPanel";
 import MobileMenu from "./MobileMenu";
 import Flyout from "./Flyout";
+import MainContent from "./MainContent";
 import styles from "../styles/Layout.module.css";
 import flyoutStyles from "../styles/Flyout.module.css";
 
@@ -26,8 +27,17 @@ const Layout = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const isDesktop = useIsDesktop();
   const location = useLocation();
+
+  const mainClassNames = [
+    location.pathname !== "/" ? styles.subPageMain : "",
+    loading || error ? styles.loadingOrError : "",
+  ]
+    .join(" ")
+    .trim();
 
   const searchResults = products.filter((product) =>
     matchesSearchTerm(product.title, searchTerm)
@@ -77,11 +87,17 @@ const Layout = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const response = await fetch("https://fakestoreapi.com/products", {
-        mode: "cors",
-      });
-      const data = await response.json();
-      setProducts(data);
+      try {
+        const response = await fetch("https://fakestoreapi.com/products", {
+          mode: "cors",
+        });
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     getProducts();
@@ -170,6 +186,8 @@ const Layout = () => {
                 cart={cart}
                 products={products}
                 onRedirect={handleCartPanelClose}
+                loading={loading}
+                error={error}
               />
             </Flyout>
           ) : (
@@ -178,6 +196,8 @@ const Layout = () => {
                 cart={cart}
                 products={products}
                 onRedirect={handleCartPanelClose}
+                loading={loading}
+                error={error}
               />
             </MobileMenu>
           ))}
@@ -200,8 +220,12 @@ const Layout = () => {
           </MobileMenu>
         )}
       </nav>
-      <main className={location.pathname !== "/" ? styles.main : undefined}>
-        <Outlet context={{ products, cart, setCart }} />
+      <main className={mainClassNames || undefined}>
+        <MainContent
+          loading={loading}
+          error={error}
+          context={{ products, cart, setCart }}
+        />
       </main>
     </>
   );
