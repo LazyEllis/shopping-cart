@@ -1,0 +1,24 @@
+.cartListItem {
+  padding-left: 20px;
+  display: flex;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 32px;
+}
+
+.productImage {
+  width: 64px;
+}
+
+.productText {
+  font-weight: 700;
+}
+
+.productQuantity {
+  font-weight: 400;
+  color: var(--secondary-text-color);
+}

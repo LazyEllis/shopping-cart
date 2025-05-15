@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { formatProductText } from "../utils/utils";
 import LoadingIcon from "./LoadingIcon";
 import styles from "../styles/CartPanel.module.css";
+import BagPanelItem from "./BagPanelItem";
 
 const CartPanel = ({ cart, products, onRedirect, loading, error }) => {
   if (loading || error) {
@@ -20,34 +20,14 @@ const CartPanel = ({ cart, products, onRedirect, loading, error }) => {
         </h2>
         {cart.length > 0 ? (
           <ul className={styles.cartList}>
-            {cart.map((entry) => {
-              const cartProduct = products.find(
-                (product) => product.id === entry.id
-              );
-              return (
-                <li className={styles.cartListItem} key={entry.id}>
-                  <Link
-                    to={`/store/${entry.id}`}
-                    onClick={onRedirect}
-                    className={styles.product}
-                  >
-                    <img
-                      src={cartProduct.image}
-                      alt=""
-                      className={styles.productImage}
-                    />
-                    <div className={styles.productText}>
-                      {formatProductText(cartProduct.title)}
-                      {entry.quantity > 1 && (
-                        <div className={styles.productQuantity}>
-                          &times;{entry.quantity}
-                        </div>
-                      )}
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
+            {cart.map((item) => (
+              <BagPanelItem
+                products={products}
+                item={item}
+                onRedirect={onRedirect}
+                key={item.id}
+              />
+            ))}
           </ul>
         ) : (
           <Link to="store" onClick={onRedirect} className={styles.storeLink}>
