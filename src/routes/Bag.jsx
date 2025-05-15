@@ -4,33 +4,33 @@ import BagItem from "../components/BagItem";
 import styles from "../styles/Bag.module.css";
 
 const Bag = () => {
-  const { products, cart, setCart } = useOutletContext();
+  const { products, bag, setBag } = useOutletContext();
 
-  const cartWithProductDetails = cart.map((item) => ({
+  const bagWithProductDetails = bag.map((item) => ({
     ...item,
     product: products.find((product) => product.id === item.id),
   }));
 
-  const totalPrice = cartWithProductDetails.reduce(
+  const totalPrice = bagWithProductDetails.reduce(
     (total, item) => total + item.quantity * item.product.price,
     0
   );
 
   const handleDelete = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
+    setBag(bag.filter((item) => item.id !== id));
   };
 
   const handleIncrement = (id) => {
-    setCart(
-      cart.map((item) =>
+    setBag(
+      bag.map((item) =>
         item.id === id ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
   };
 
   const handleDecrement = (id) => {
-    setCart(
-      cart.map((item) =>
+    setBag(
+      bag.map((item) =>
         item.quantity > 1 && item.id === id
           ? { ...item, quantity: item.quantity - 1 }
           : item
@@ -42,14 +42,14 @@ const Bag = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.heading}>
-          {cart.length > 0 ? "Review your bag." : "Your bag is empty."}
+          {bag.length > 0 ? "Review your bag." : "Your bag is empty."}
         </h1>
         <div>Free delivery and free returns.</div>
       </div>
-      {cart.length > 0 ? (
+      {bag.length > 0 ? (
         <>
           <ul className={styles.bagItems}>
-            {cartWithProductDetails.map((item) => (
+            {bagWithProductDetails.map((item) => (
               <BagItem
                 item={item}
                 onIncrement={() => handleIncrement(item.id)}

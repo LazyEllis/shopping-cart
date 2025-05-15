@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu } from "lucide-react";
 import { matchesSearchTerm } from "../utils/utils";
 import SearchForm from "./SearchForm";
-import CartPanel from "./CartPanel";
+import BagPanel from "./BagPanel";
 import MobileMenu from "./MobileMenu";
 import Flyout from "./Flyout";
 import MainContent from "./MainContent";
@@ -23,9 +23,9 @@ const navigation = [
 const Layout = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
-  const [isCartPanelOpen, setIsCartPanelOpen] = useState(false);
+  const [isBagPanelOpen, setIsBagPanelOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [cart, setCart] = useState([]);
+  const [bag, setBag] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,16 +54,16 @@ const Layout = () => {
     setSearchTerm("");
   };
 
-  const handleCartPanelOpen = () => setIsCartPanelOpen(true);
+  const handleBagPanelOpen = () => setIsBagPanelOpen(true);
 
-  const handleCartPanelClose = () => setIsCartPanelOpen(false);
+  const handleBagPanelClose = () => setIsBagPanelOpen(false);
 
   const handleChange = (e) => setSearchTerm(e.target.value);
 
   const handleReset = () => setSearchTerm("");
 
   useEffect(() => {
-    if ((!isSearchBarOpen && !isCartPanelOpen) || !isDesktop) return;
+    if ((!isSearchBarOpen && !isBagPanelOpen) || !isDesktop) return;
 
     const closeFlyout = (e) => {
       if (e.target.closest(`.${flyoutStyles.flyout}`)) {
@@ -71,19 +71,19 @@ const Layout = () => {
       } else if (
         e.target.closest(`.${styles.navButton}`)?.dataset.role === "Search"
       ) {
-        isCartPanelOpen && handleCartPanelClose();
+        isBagPanelOpen && handleBagPanelClose();
       } else if (
-        e.target.closest(`.${styles.navButton}`)?.dataset.role === "Cart"
+        e.target.closest(`.${styles.navButton}`)?.dataset.role === "Bag"
       ) {
         isSearchBarOpen && handleSearchBarClose();
       } else {
-        isSearchBarOpen ? handleSearchBarClose() : handleCartPanelClose();
+        isSearchBarOpen ? handleSearchBarClose() : handleBagPanelClose();
       }
     };
 
     document.addEventListener("mousedown", closeFlyout);
     return () => document.removeEventListener("mousedown", closeFlyout);
-  }, [isCartPanelOpen, isDesktop, isSearchBarOpen]);
+  }, [isBagPanelOpen, isDesktop, isSearchBarOpen]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -135,10 +135,10 @@ const Layout = () => {
             <li className={styles.navItem}>
               <button
                 className={styles.navButton}
-                aria-label="Cart"
-                data-role="Cart"
+                aria-label="Bag"
+                data-role="Bag"
                 onClick={
-                  isCartPanelOpen ? handleCartPanelClose : handleCartPanelOpen
+                  isBagPanelOpen ? handleBagPanelClose : handleBagPanelOpen
                 }
               >
                 <ShoppingBag size={17} />
@@ -179,23 +179,23 @@ const Layout = () => {
             </MobileMenu>
           ))}
 
-        {isCartPanelOpen &&
+        {isBagPanelOpen &&
           (isDesktop ? (
             <Flyout>
-              <CartPanel
-                cart={cart}
+              <BagPanel
+                bag={bag}
                 products={products}
-                onRedirect={handleCartPanelClose}
+                onRedirect={handleBagPanelClose}
                 loading={loading}
                 error={error}
               />
             </Flyout>
           ) : (
-            <MobileMenu onClose={handleCartPanelClose}>
-              <CartPanel
-                cart={cart}
+            <MobileMenu onClose={handleBagPanelClose}>
+              <BagPanel
+                bag={bag}
                 products={products}
-                onRedirect={handleCartPanelClose}
+                onRedirect={handleBagPanelClose}
                 loading={loading}
                 error={error}
               />
@@ -224,7 +224,7 @@ const Layout = () => {
         <MainContent
           loading={loading}
           error={error}
-          context={{ products, cart, setCart }}
+          context={{ products, bag, setBag }}
         />
       </main>
     </>

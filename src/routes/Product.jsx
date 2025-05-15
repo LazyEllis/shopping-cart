@@ -3,21 +3,21 @@ import { formatProductText, toTitleCase, formatCurrency } from "../utils/utils";
 import styles from "../styles/Product.module.css";
 
 const Product = () => {
-  const { products, cart, setCart } = useOutletContext();
+  const { products, bag, setBag } = useOutletContext();
   const { productId } = useParams();
 
-  const handleAddToCart = () => {
-    const isInCart = cart.some((product) => product.id === parseInt(productId));
+  const handleAddToBag = () => {
+    const isInBag = bag.some((product) => product.id === parseInt(productId));
 
-    if (isInCart) {
-      const updatedCart = cart.map((product) =>
+    if (isInBag) {
+      const updatedBag = bag.map((product) =>
         product.id === parseInt(productId)
           ? { ...product, quantity: product.quantity + 1 }
           : product
       );
-      setCart(updatedCart);
+      setBag(updatedBag);
     } else {
-      setCart([...cart, { id: parseInt(productId), quantity: 1 }]);
+      setBag([...bag, { id: parseInt(productId), quantity: 1 }]);
     }
   };
 
@@ -45,7 +45,7 @@ const Product = () => {
             <div>{toTitleCase(product.category)}</div>
           </div>
           <p>{product.description}</p>
-          <button className={styles.addToCartBtn} onClick={handleAddToCart}>
+          <button className={styles.addToBagBtn} onClick={handleAddToBag}>
             Add to Bag
           </button>
         </div>

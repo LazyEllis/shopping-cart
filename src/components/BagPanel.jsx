@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import LoadingIcon from "./LoadingIcon";
-import styles from "../styles/CartPanel.module.css";
+import styles from "../styles/BagPanel.module.css";
 import BagPanelItem from "./BagPanelItem";
 
-const CartPanel = ({ cart, products, onRedirect, loading, error }) => {
+const BagPanel = ({ bag, products, onRedirect, loading, error }) => {
   if (loading || error) {
     return (
       <div className={styles.container}>
@@ -15,12 +15,12 @@ const CartPanel = ({ cart, products, onRedirect, loading, error }) => {
   return (
     <div className={styles.container}>
       <div>
-        <h2 className={styles.cartTitle}>
-          {cart.length > 0 ? "Bag" : "Your Bag is empty."}
+        <h2 className={styles.bagTitle}>
+          {bag.length > 0 ? "Bag" : "Your Bag is empty."}
         </h2>
-        {cart.length > 0 ? (
-          <ul className={styles.cartList}>
-            {cart.map((item) => (
+        {bag.length > 0 ? (
+          <ul className={styles.bagList}>
+            {bag.map((item) => (
               <BagPanelItem
                 products={products}
                 item={item}
@@ -35,7 +35,7 @@ const CartPanel = ({ cart, products, onRedirect, loading, error }) => {
           </Link>
         )}
       </div>
-      {cart.length > 0 && (
+      {bag.length > 0 && (
         <div className={styles.panelRight}>
           <Link to="/shop/bag" onClick={onRedirect} className={styles.btn}>
             Review Bag
@@ -46,4 +46,4 @@ const CartPanel = ({ cart, products, onRedirect, loading, error }) => {
   );
 };
 
-export default CartPanel;
+export default BagPanel;

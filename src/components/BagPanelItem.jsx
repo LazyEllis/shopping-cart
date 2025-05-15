@@ -6,7 +6,7 @@ const BagPanelItem = ({ products, item, onRedirect }) => {
   const product = products.find((product) => product.id === item.id);
 
   return (
-    <li className={styles.cartListItem}>
+    <li className={styles.bagListItem}>
       <Link
         to={`/store/${item.id}`}
         onClick={onRedirect}
