@@ -33,8 +33,7 @@
   }
 }
 
-.desktopMenu,
-.flyout {
+.desktopMenu {
   display: none;
 }
 
@@ -58,25 +57,15 @@
 }
 
 @media (width >= 48rem) {
+  .navContainer:has(.nav:not(:only-child)) {
+    background-color: var(--secondary-bg-color);
+  }
+
   .nav {
     padding: 0 14px;
 
     > .navList {
       display: contents;
-    }
-  }
-
-  .flyout {
-    display: block;
-    background-color: var(--secondary-bg-color);
-    font-size: 1.75rem;
-    position: absolute;
-    width: 100%;
-
-    > * {
-      padding: 32px 22px 80px;
-      max-width: 1024px;
-      margin: auto;
     }
   }
 

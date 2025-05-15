@@ -6,7 +6,9 @@ import { matchesSearchTerm } from "../utils/utils";
 import SearchForm from "./SearchForm";
 import CartPanel from "./CartPanel";
 import MobileMenu from "./MobileMenu";
+import Flyout from "./Flyout";
 import styles from "../styles/Layout.module.css";
+import flyoutStyles from "../styles/Flyout.module.css";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -54,14 +56,14 @@ const Layout = () => {
     if ((!isSearchBarOpen && !isCartPanelOpen) || !isDesktop) return;
 
     const closeFlyout = (e) => {
-      if (e.target.closest(`.${styles.flyout}`)) {
+      if (e.target.closest(`.${flyoutStyles.flyout}`)) {
         return;
       } else if (
-        e.target.closest(`.${styles.navButton}`)?.ariaLabel === "Search"
+        e.target.closest(`.${styles.navButton}`)?.dataset.role === "Search"
       ) {
         isCartPanelOpen && handleCartPanelClose();
       } else if (
-        e.target.closest(`.${styles.navButton}`)?.ariaLabel === "Cart"
+        e.target.closest(`.${styles.navButton}`)?.dataset.role === "Cart"
       ) {
         isSearchBarOpen && handleSearchBarClose();
       } else {
@@ -87,7 +89,7 @@ const Layout = () => {
 
   return (
     <>
-      <nav>
+      <nav className={styles.navContainer}>
         <div className={styles.nav}>
           <Link to="/" className={styles.navBrand}>
             Shopzilla
@@ -106,6 +108,7 @@ const Layout = () => {
               <button
                 className={styles.navButton}
                 aria-label="Search"
+                data-role="Search"
                 onClick={
                   isSearchBarOpen ? handleSearchBarClose : handleSearchBarOpen
                 }
@@ -117,6 +120,7 @@ const Layout = () => {
               <button
                 className={styles.navButton}
                 aria-label="Cart"
+                data-role="Cart"
                 onClick={
                   isCartPanelOpen ? handleCartPanelClose : handleCartPanelOpen
                 }
@@ -138,7 +142,7 @@ const Layout = () => {
 
         {isSearchBarOpen &&
           (isDesktop ? (
-            <div className={styles.flyout}>
+            <Flyout>
               <SearchForm
                 onChange={handleChange}
                 onReset={handleReset}
@@ -146,7 +150,7 @@ const Layout = () => {
                 value={searchTerm}
                 results={searchResults}
               />
-            </div>
+            </Flyout>
           ) : (
             <MobileMenu onClose={handleSearchBarClose}>
               <SearchForm
@@ -161,13 +165,13 @@ const Layout = () => {
 
         {isCartPanelOpen &&
           (isDesktop ? (
-            <div className={styles.flyout}>
+            <Flyout>
               <CartPanel
                 cart={cart}
                 products={products}
                 onRedirect={handleCartPanelClose}
               />
-            </div>
+            </Flyout>
           ) : (
             <MobileMenu onClose={handleCartPanelClose}>
               <CartPanel

@@ -1,0 +1,28 @@
+.flyout {
+  display: none;
+}
+
+@media (width >= 48rem) {
+  .flyout {
+    display: block;
+    background-color: var(--secondary-bg-color);
+    font-size: 1.75rem;
+    position: absolute;
+    width: 100%;
+
+    > * {
+      padding: 32px 22px 80px;
+      max-width: 1024px;
+      margin: auto;
+    }
+  }
+
+  .blur {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: calc(100vh - 48px);
+    background: #e8e8ed66;
+    backdrop-filter: blur(20px);
+  }
+}
