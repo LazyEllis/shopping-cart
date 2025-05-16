@@ -1,0 +1,22 @@
+.container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.heading {
+  max-width: 501px;
+}
+
+.link {
+  display: flex;
+  width: fit-content;
+  margin: auto;
+  color: var(--primary-bg-link);
+
+  &:hover {
+    color: var(--primary-bg-link-hover);
+    text-decoration: underline;
+  }
+}

@@ -20,7 +20,7 @@ const navigation = [
   { name: "Women's Clothing", href: "store?category=women's clothing" },
 ];
 
-const Layout = () => {
+const Layout = ({ children }) => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const [isBagPanelOpen, setIsBagPanelOpen] = useState(false);
@@ -34,7 +34,7 @@ const Layout = () => {
 
   const mainClassNames = [
     location.pathname !== "/" ? styles.subPageMain : "",
-    loading || error ? styles.loadingOrError : "",
+    loading || error || children ? styles.loadingOrError : "",
   ]
     .join(" ")
     .trim();
@@ -221,11 +221,15 @@ const Layout = () => {
         )}
       </nav>
       <main className={mainClassNames || undefined}>
-        <MainContent
-          loading={loading}
-          error={error}
-          context={{ products, bag, setBag }}
-        />
+        {children ? (
+          children
+        ) : (
+          <MainContent
+            loading={loading}
+            error={error}
+            context={{ products, bag, setBag }}
+          />
+        )}
       </main>
     </>
   );
