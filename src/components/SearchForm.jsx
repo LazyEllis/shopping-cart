@@ -19,6 +19,9 @@ const SearchPanel = ({ onReset, onChange, onRedirect, value, results }) => {
         onReset={onReset}
         onSubmit={handleSubmit}
       >
+        <label htmlFor="search" className={styles.srOnlyLabel}>
+          Search products
+        </label>
         <input
           type="text"
           name="search"

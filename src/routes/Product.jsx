@@ -27,11 +27,11 @@ const Product = () => {
 
   return (
     <>
-      <div className={styles.header}>
+      <header className={styles.header}>
         <h1>Buy {formatProductText(product.title)}</h1>
         <div>From {formatCurrency(product.price)}</div>
         <div>{toTitleCase(product.category)}</div>
-      </div>
+      </header>
       <div className={styles.container}>
         <div className={styles.imageContainer}>
           <img src={product.image} alt="" className={styles.productImage} />

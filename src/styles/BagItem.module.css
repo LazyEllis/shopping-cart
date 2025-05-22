@@ -28,6 +28,10 @@
   z-index: -1;
 }
 
+.itemTitle {
+  font-size: inherit;
+}
+
 .priceControls {
   display: flex;
   justify-content: space-between;
@@ -45,6 +49,11 @@
 
   &:hover {
     color: var(--primary-bg-link-hover);
+  }
+
+  &:disabled {
+    color: var(--primary-bg-link-disabled);
+    cursor: not-allowed;
   }
 }
 

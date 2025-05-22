@@ -10,6 +10,7 @@
   --text-color-hover: #000;
   --primary-bg-link: #0071e3;
   --primary-bg-link-hover: #0077ed;
+  --primary-bg-link-disabled: #a1a1a6;
   --primary-text-link: #fff;
   --border-color: #d2d2d7;
 }

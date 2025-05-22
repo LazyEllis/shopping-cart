@@ -10,11 +10,20 @@ const BagItem = ({ item, onIncrement, onDecrement, onDelete }) => (
         <div>{formatProductText(item.product.title)}</div>
         <div className={styles.priceControls}>
           <div className={styles.quantitySetter}>
-            <button className={styles.quantityToggle} onClick={onDecrement}>
+            <button
+              className={styles.quantityToggle}
+              onClick={onDecrement}
+              aria-label="Decrease quantity"
+              disabled={item.quantity === 1}
+            >
               <CircleMinus className={styles.buttonIcon} size={18} />
             </button>
-            <div>{item.quantity}</div>
-            <button className={styles.quantityToggle} onClick={onIncrement}>
+            <div aria-live="polite">{item.quantity}</div>
+            <button
+              className={styles.quantityToggle}
+              onClick={onIncrement}
+              aria-label="Increase quantity"
+            >
               <CirclePlus className={styles.buttonIcon} size={18} />
             </button>
           </div>

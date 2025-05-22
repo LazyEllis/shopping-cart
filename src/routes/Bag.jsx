@@ -40,12 +40,12 @@ const Bag = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      <header className={styles.header}>
         <h1 className={styles.heading}>
           {bag.length > 0 ? "Review your bag." : "Your bag is empty."}
         </h1>
         <div>Free delivery and free returns.</div>
-      </div>
+      </header>
       {bag.length > 0 ? (
         <>
           <ul className={styles.bagItems}>

@@ -29,12 +29,12 @@ const Store = () => {
 
   return (
     <>
-      <div className={styles.header}>
+      <header className={styles.header}>
         <h1>Store.</h1>{" "}
         <span className={styles.subtitle}>
           Everything you desire, all in one place.
         </span>
-      </div>
+      </header>
       <div className={styles.container}>
         {category || searchTerm ? (
           <CardShelf
