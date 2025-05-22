@@ -4,10 +4,10 @@ import styles from "../styles/BagItem.module.css";
 
 const BagItem = ({ item, onIncrement, onDecrement, onDelete }) => (
   <li className={styles.item}>
-    <img src={item.product.image} alt="" className={styles.itemImage} />
+    <img src={item.image} alt="" className={styles.itemImage} />
     <div className={styles.itemContent}>
       <div className={styles.itemDescription}>
-        <div>{formatProductText(item.product.title)}</div>
+        <h2 className={styles.itemTitle}>{formatProductText(item.title)}</h2>
         <div className={styles.priceControls}>
           <div className={styles.quantitySetter}>
             <button
@@ -27,7 +27,7 @@ const BagItem = ({ item, onIncrement, onDecrement, onDelete }) => (
               <CirclePlus className={styles.buttonIcon} size={18} />
             </button>
           </div>
-          <div>{formatCurrency(item.quantity * item.product.price)}</div>
+          <div>{formatCurrency(item.quantity * item.price)}</div>
         </div>
       </div>
       <button onClick={onDelete} className={styles.removeItemBtn}>

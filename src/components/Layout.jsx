@@ -32,6 +32,11 @@ const Layout = ({ children }) => {
   const isDesktop = useIsDesktop();
   const location = useLocation();
 
+  const bagWithProductDetails = bag.map((item) => ({
+    ...item,
+    ...products.find((product) => product.id === item.id),
+  }));
+
   const mainClassNames = [
     location.pathname !== "/" ? styles.subPageMain : "",
     loading || error || children ? styles.loadingOrError : "",
@@ -183,8 +188,7 @@ const Layout = ({ children }) => {
           (isDesktop ? (
             <Flyout>
               <BagPanel
-                bag={bag}
-                products={products}
+                bag={bagWithProductDetails}
                 onRedirect={handleBagPanelClose}
                 loading={loading}
                 error={error}
@@ -193,8 +197,7 @@ const Layout = ({ children }) => {
           ) : (
             <MobileMenu onClose={handleBagPanelClose}>
               <BagPanel
-                bag={bag}
-                products={products}
+                bag={bagWithProductDetails}
                 onRedirect={handleBagPanelClose}
                 loading={loading}
                 error={error}
@@ -227,7 +230,7 @@ const Layout = ({ children }) => {
           <MainContent
             loading={loading}
             error={error}
-            context={{ products, bag, setBag }}
+            context={{ products, bag, bagWithProductDetails, setBag }}
           />
         )}
       </main>

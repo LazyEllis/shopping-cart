@@ -3,7 +3,7 @@ import LoadingIcon from "./LoadingIcon";
 import styles from "../styles/BagPanel.module.css";
 import BagPanelItem from "./BagPanelItem";
 
-const BagPanel = ({ bag, products, onRedirect, loading, error }) => {
+const BagPanel = ({ bag, onRedirect, loading, error }) => {
   if (loading || error) {
     return (
       <div className={styles.container}>
@@ -21,12 +21,7 @@ const BagPanel = ({ bag, products, onRedirect, loading, error }) => {
         {bag.length > 0 ? (
           <ul className={styles.bagList}>
             {bag.map((item) => (
-              <BagPanelItem
-                products={products}
-                item={item}
-                onRedirect={onRedirect}
-                key={item.id}
-              />
+              <BagPanelItem item={item} onRedirect={onRedirect} key={item.id} />
             ))}
           </ul>
         ) : (

@@ -4,15 +4,10 @@ import BagItem from "../components/BagItem";
 import styles from "../styles/Bag.module.css";
 
 const Bag = () => {
-  const { products, bag, setBag } = useOutletContext();
-
-  const bagWithProductDetails = bag.map((item) => ({
-    ...item,
-    product: products.find((product) => product.id === item.id),
-  }));
+  const { bag, bagWithProductDetails, setBag } = useOutletContext();
 
   const totalPrice = bagWithProductDetails.reduce(
-    (total, item) => total + item.quantity * item.product.price,
+    (total, item) => total + item.price * item.quantity,
     0
   );
 
