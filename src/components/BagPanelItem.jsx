@@ -2,13 +2,9 @@ import { Link } from "react-router-dom";
 import { formatProductText } from "../utils/utils";
 import styles from "../styles/BagPanelItem.module.css";
 
-const BagPanelItem = ({ item, onRedirect }) => (
+const BagPanelItem = ({ item, onClose }) => (
   <li className={styles.bagListItem}>
-    <Link
-      to={`/store/${item.id}`}
-      onClick={onRedirect}
-      className={styles.product}
-    >
+    <Link to={`/store/${item.id}`} onClick={onClose} className={styles.product}>
       <img src={item.image} alt="" className={styles.productImage} />
       <div className={styles.productText}>
         {formatProductText(item.title)}

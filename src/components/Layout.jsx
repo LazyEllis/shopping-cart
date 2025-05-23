@@ -167,7 +167,7 @@ const Layout = ({ children }) => {
               <SearchForm
                 onChange={handleChange}
                 onReset={handleReset}
-                onRedirect={handleSearchBarClose}
+                onClose={handleSearchBarClose}
                 value={searchTerm}
                 results={searchResults}
               />
@@ -177,7 +177,7 @@ const Layout = ({ children }) => {
               <SearchForm
                 onChange={handleChange}
                 onReset={handleReset}
-                onRedirect={handleSearchBarClose}
+                onClose={handleSearchBarClose}
                 value={searchTerm}
                 results={searchResults}
               />
@@ -189,7 +189,7 @@ const Layout = ({ children }) => {
             <Flyout>
               <BagPanel
                 bag={bagWithProductDetails}
-                onRedirect={handleBagPanelClose}
+                onClose={handleBagPanelClose}
                 loading={loading}
                 error={error}
               />
@@ -198,7 +198,7 @@ const Layout = ({ children }) => {
             <MobileMenu onClose={handleBagPanelClose}>
               <BagPanel
                 bag={bagWithProductDetails}
-                onRedirect={handleBagPanelClose}
+                onClose={handleBagPanelClose}
                 loading={loading}
                 error={error}
               />

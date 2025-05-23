@@ -3,7 +3,7 @@ import LoadingIcon from "./LoadingIcon";
 import styles from "../styles/BagPanel.module.css";
 import BagPanelItem from "./BagPanelItem";
 
-const BagPanel = ({ bag, onRedirect, loading, error }) => {
+const BagPanel = ({ bag, onClose, loading, error }) => {
   if (loading || error) {
     return (
       <div className={styles.container}>
@@ -21,18 +21,18 @@ const BagPanel = ({ bag, onRedirect, loading, error }) => {
         {bag.length > 0 ? (
           <ul className={styles.bagList}>
             {bag.map((item) => (
-              <BagPanelItem item={item} onRedirect={onRedirect} key={item.id} />
+              <BagPanelItem item={item} onClose={onClose} key={item.id} />
             ))}
           </ul>
         ) : (
-          <Link to="store" onClick={onRedirect} className={styles.storeLink}>
+          <Link to="store" onClick={onClose} className={styles.storeLink}>
             Shop Now
           </Link>
         )}
       </div>
       {bag.length > 0 && (
         <div className={styles.panelRight}>
-          <Link to="/shop/bag" onClick={onRedirect} className={styles.btn}>
+          <Link to="/shop/bag" onClick={onClose} className={styles.btn}>
             Review Bag
           </Link>
         </div>

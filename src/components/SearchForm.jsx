@@ -3,13 +3,13 @@ import { Search, CircleX, ArrowRight } from "lucide-react";
 import { formatProductText } from "../utils/utils";
 import styles from "../styles/SearchForm.module.css";
 
-const SearchPanel = ({ onReset, onChange, onRedirect, value, results }) => {
+const SearchPanel = ({ onReset, onChange, onClose, value, results }) => {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate(`/store?search=${value}`);
-    onRedirect();
+    onClose();
   };
 
   return (
@@ -56,7 +56,7 @@ const SearchPanel = ({ onReset, onChange, onRedirect, value, results }) => {
               <li key={result.id}>
                 <Link
                   to={`store/${result.id}`}
-                  onClick={onRedirect}
+                  onClick={onClose}
                   className={styles.resultLink}
                 >
                   <ArrowRight className={styles.arrow} />
