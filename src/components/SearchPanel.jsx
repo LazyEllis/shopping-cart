@@ -29,15 +29,14 @@ const SearchPanel = ({ onClose, products }) => {
         className={styles.searchForm}
         onReset={handleReset}
         onSubmit={handleSubmit}
+        role="search"
       >
-        <label htmlFor="search" className={styles.srOnlyLabel}>
-          Search products
-        </label>
         <input
-          type="text"
+          type="search"
           name="search"
           id="search"
           placeholder="Search"
+          aria-label="Search for products"
           value={searchTerm}
           onChange={handleChange}
           className={styles.searchInput}
