@@ -25,3 +25,17 @@ export const matchesSearchTerm = (text, searchTerm) => {
       .some((token) => token.startsWith(normalizedSearchTerm.split(" ")[0]))
   );
 };
+
+export const groupBy = (items, groupingKey) =>
+  items.reduce((result, item) => {
+    // Extract the value to group by from the current item
+    const group = item[groupingKey];
+
+    // Initialize the group array if it doesn't exist
+    if (!result[group]) result[group] = [];
+
+    // Add the current item to its corresponding group
+    result[group].push(item);
+
+    return result;
+  }, {});

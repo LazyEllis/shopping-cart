@@ -1,5 +1,5 @@
 import { useOutletContext, Link } from "react-router-dom";
-import { formatProductText, toTitleCase } from "../utils/utils";
+import { groupBy, formatProductText, toTitleCase } from "../utils/utils";
 import styles from "../styles/Home.module.css";
 
 const Home = () => {
@@ -7,9 +7,9 @@ const Home = () => {
 
   // Gets the highest rated product from each category
   const featuredProducts = Object.values(
-    Object.groupBy(
+    groupBy(
       products.toSorted((a, b) => b.rating.rate - a.rating.rate),
-      (product) => product.category
+      "category"
     )
   ).map((products) => products[0]);
 

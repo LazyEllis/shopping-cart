@@ -1,5 +1,5 @@
 import { useOutletContext, useSearchParams } from "react-router-dom";
-import { matchesSearchTerm } from "../utils/utils";
+import { matchesSearchTerm, groupBy } from "../utils/utils";
 import CardShelf from "../components/CardShelf";
 import styles from "../styles/Store.module.css";
 
@@ -21,10 +21,7 @@ const Store = () => {
       (product) => matchesSearchTerm(product.title, searchTerm) // If the URL contains a search query, filter products based on the search term.
     );
   } else {
-    categorizedProducts = Object.groupBy(
-      products,
-      (product) => product.category // If neither query is present, group the products by their category.
-    );
+    categorizedProducts = groupBy(products, "category"); // If neither query is present, group the products by their category.
   }
 
   return (
