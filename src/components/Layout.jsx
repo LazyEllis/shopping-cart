@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { useIsDesktop } from "../utils/useIsDesktop";
 import { Link, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu } from "lucide-react";
-import { matchesSearchTerm } from "../utils/utils";
-import SearchForm from "./SearchForm";
+import SearchPanel from "./SearchPanel";
 import BagPanel from "./BagPanel";
 import MobileMenu from "./MobileMenu";
 import Flyout from "./Flyout";
@@ -24,7 +23,6 @@ const Layout = ({ children }) => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const [isBagPanelOpen, setIsBagPanelOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [bag, setBag] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,28 +42,17 @@ const Layout = ({ children }) => {
     .join(" ")
     .trim();
 
-  const searchResults = products.filter((product) =>
-    matchesSearchTerm(product.title, searchTerm)
-  );
-
   const handleNavbarOpen = () => setIsNavbarOpen(true);
 
   const handleNavbarClose = () => setIsNavbarOpen(false);
 
   const handleSearchBarOpen = () => setIsSearchBarOpen(true);
 
-  const handleSearchBarClose = () => {
-    setIsSearchBarOpen(false);
-    setSearchTerm("");
-  };
+  const handleSearchBarClose = () => setIsSearchBarOpen(false);
 
   const handleBagPanelOpen = () => setIsBagPanelOpen(true);
 
   const handleBagPanelClose = () => setIsBagPanelOpen(false);
-
-  const handleChange = (e) => setSearchTerm(e.target.value);
-
-  const handleReset = () => setSearchTerm("");
 
   useEffect(() => {
     if ((!isSearchBarOpen && !isBagPanelOpen) || !isDesktop) return;
@@ -164,23 +151,11 @@ const Layout = ({ children }) => {
         {isSearchBarOpen &&
           (isDesktop ? (
             <Flyout>
-              <SearchForm
-                onChange={handleChange}
-                onReset={handleReset}
-                onClose={handleSearchBarClose}
-                value={searchTerm}
-                results={searchResults}
-              />
+              <SearchPanel onClose={handleSearchBarClose} products={products} />
             </Flyout>
           ) : (
             <MobileMenu onClose={handleSearchBarClose}>
-              <SearchForm
-                onChange={handleChange}
-                onReset={handleReset}
-                onClose={handleSearchBarClose}
-                value={searchTerm}
-                results={searchResults}
-              />
+              <SearchPanel onClose={handleSearchBarClose} products={products} />
             </MobileMenu>
           ))}
 

@@ -1,14 +1,25 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, CircleX, ArrowRight } from "lucide-react";
-import { formatProductText } from "../utils/utils";
-import styles from "../styles/SearchForm.module.css";
+import { matchesSearchTerm, formatProductText } from "../utils/utils";
+import styles from "../styles/SearchPanel.module.css";
 
-const SearchPanel = ({ onReset, onChange, onClose, value, results }) => {
+const SearchPanel = ({ onClose, products }) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+
+  const searchResults = products.filter((product) =>
+    matchesSearchTerm(product.title, searchTerm)
+  );
+
+  const handleChange = (e) => setSearchTerm(e.target.value);
+
+  const handleReset = () => setSearchTerm("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/store?search=${value}`);
+    navigate(`/store?search=${searchTerm}`);
+    setSearchTerm("");
     onClose();
   };
 
@@ -16,7 +27,7 @@ const SearchPanel = ({ onReset, onChange, onClose, value, results }) => {
     <div className={styles.searchPanel}>
       <form
         className={styles.searchForm}
-        onReset={onReset}
+        onReset={handleReset}
         onSubmit={handleSubmit}
       >
         <label htmlFor="search" className={styles.srOnlyLabel}>
@@ -27,32 +38,32 @@ const SearchPanel = ({ onReset, onChange, onClose, value, results }) => {
           name="search"
           id="search"
           placeholder="Search"
-          value={value}
-          onChange={onChange}
+          value={searchTerm}
+          onChange={handleChange}
           className={styles.searchInput}
         />
         <button
           type="reset"
           aria-label="Clear Search"
           className={styles.searchButton}
-          disabled={!value}
+          disabled={!searchTerm}
         >
-          {value && <CircleX size={20} />}
+          {searchTerm && <CircleX size={20} />}
         </button>
         <button
           type="submit"
           aria-label="Submit Search"
           className={styles.searchButton}
-          disabled={!value}
+          disabled={!searchTerm}
         >
           <Search size={20} />
         </button>
       </form>
-      {results.length > 0 && (
+      {searchResults.length > 0 && (
         <div className={styles.searchResults}>
           <h2 className={styles.heading}>Suggested Links</h2>
           <ul className={styles.resultList}>
-            {results.map((result) => (
+            {searchResults.map((result) => (
               <li key={result.id}>
                 <Link
                   to={`store/${result.id}`}
