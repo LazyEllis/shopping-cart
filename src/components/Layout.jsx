@@ -13,10 +13,10 @@ import flyoutStyles from "../styles/Flyout.module.css";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Store", href: "store" },
-  { name: "Men's Clothing", href: "store?category=men's clothing" },
+  { name: "Men's Clothing", href: "store?category=men's%20clothing" },
   { name: "Jewelery", href: "store?category=jewelery" },
   { name: "Electronics", href: "store?category=electronics" },
-  { name: "Women's Clothing", href: "store?category=women's clothing" },
+  { name: "Women's Clothing", href: "store?category=women's%20clothing" },
 ];
 
 const PANELS = {
