@@ -19,10 +19,15 @@ const navigation = [
   { name: "Women's Clothing", href: "store?category=women's clothing" },
 ];
 
+const PANELS = {
+  NONE: "none",
+  SEARCH: "search",
+  BAG: "bag",
+  MENU: "menu",
+};
+
 const Layout = ({ children }) => {
-  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
-  const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
-  const [isBagPanelOpen, setIsBagPanelOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState(PANELS.NONE);
   const [bag, setBag] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,40 +47,35 @@ const Layout = ({ children }) => {
     .join(" ")
     .trim();
 
-  const handleNavbarOpen = () => setIsNavbarOpen(true);
+  const handlePanelToggle = (panel) => {
+    setActivePanel(activePanel === panel ? PANELS.NONE : panel);
+  };
 
-  const handleNavbarClose = () => setIsNavbarOpen(false);
-
-  const handleSearchBarOpen = () => setIsSearchBarOpen(true);
-
-  const handleSearchBarClose = () => setIsSearchBarOpen(false);
-
-  const handleBagPanelOpen = () => setIsBagPanelOpen(true);
-
-  const handleBagPanelClose = () => setIsBagPanelOpen(false);
+  const handlePanelClose = () => {
+    setActivePanel(PANELS.NONE);
+  };
 
   useEffect(() => {
-    if ((!isSearchBarOpen && !isBagPanelOpen) || !isDesktop) return;
+    if (
+      activePanel === PANELS.NONE ||
+      activePanel === PANELS.MENU ||
+      !isDesktop
+    )
+      return;
 
-    const closeFlyout = (e) => {
-      if (e.target.closest(`.${flyoutStyles.flyout}`)) {
+    const handleClickOutside = (e) => {
+      if (
+        e.target.closest(`.${flyoutStyles.flyout}`) ||
+        e.target.closest(`.${styles.navButton}`)
+      )
         return;
-      } else if (
-        e.target.closest(`.${styles.navButton}`)?.dataset.role === "Search"
-      ) {
-        isBagPanelOpen && handleBagPanelClose();
-      } else if (
-        e.target.closest(`.${styles.navButton}`)?.dataset.role === "Bag"
-      ) {
-        isSearchBarOpen && handleSearchBarClose();
-      } else {
-        isSearchBarOpen ? handleSearchBarClose() : handleBagPanelClose();
-      }
+
+      setActivePanel(PANELS.NONE);
     };
 
-    document.addEventListener("mousedown", closeFlyout);
-    return () => document.removeEventListener("mousedown", closeFlyout);
-  }, [isBagPanelOpen, isDesktop, isSearchBarOpen]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [activePanel, isDesktop]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -117,9 +117,7 @@ const Layout = ({ children }) => {
                 className={styles.navButton}
                 aria-label="Search"
                 data-role="Search"
-                onClick={
-                  isSearchBarOpen ? handleSearchBarClose : handleSearchBarOpen
-                }
+                onClick={() => handlePanelToggle(PANELS.SEARCH)}
               >
                 <Search size={17} />
               </button>
@@ -129,9 +127,7 @@ const Layout = ({ children }) => {
                 className={styles.navButton}
                 aria-label="Bag"
                 data-role="Bag"
-                onClick={
-                  isBagPanelOpen ? handleBagPanelClose : handleBagPanelOpen
-                }
+                onClick={() => handlePanelToggle(PANELS.BAG)}
               >
                 <ShoppingBag size={17} />
               </button>
@@ -140,7 +136,7 @@ const Layout = ({ children }) => {
               <button
                 className={styles.navButton}
                 aria-label="Menu"
-                onClick={handleNavbarOpen}
+                onClick={() => handlePanelToggle(PANELS.MENU)}
               >
                 <Menu size={17} />
               </button>
@@ -148,46 +144,46 @@ const Layout = ({ children }) => {
           </ul>
         </div>
 
-        {isSearchBarOpen &&
+        {activePanel === PANELS.SEARCH &&
           (isDesktop ? (
             <Flyout>
-              <SearchPanel onClose={handleSearchBarClose} products={products} />
+              <SearchPanel onClose={handlePanelClose} products={products} />
             </Flyout>
           ) : (
-            <MobileMenu onClose={handleSearchBarClose}>
-              <SearchPanel onClose={handleSearchBarClose} products={products} />
+            <MobileMenu onClose={handlePanelClose}>
+              <SearchPanel onClose={handlePanelClose} products={products} />
             </MobileMenu>
           ))}
 
-        {isBagPanelOpen &&
+        {activePanel === PANELS.BAG &&
           (isDesktop ? (
             <Flyout>
               <BagPanel
                 bag={bagWithProductDetails}
-                onClose={handleBagPanelClose}
+                onClose={handlePanelClose}
                 loading={loading}
                 error={error}
               />
             </Flyout>
           ) : (
-            <MobileMenu onClose={handleBagPanelClose}>
+            <MobileMenu onClose={handlePanelClose}>
               <BagPanel
                 bag={bagWithProductDetails}
-                onClose={handleBagPanelClose}
+                onClose={handlePanelClose}
                 loading={loading}
                 error={error}
               />
             </MobileMenu>
           ))}
 
-        {isNavbarOpen && (
-          <MobileMenu onClose={handleNavbarClose}>
+        {activePanel === PANELS.MENU && (
+          <MobileMenu onClose={handlePanelClose}>
             <ul className={styles.mobileNavList}>
               {navigation.map((item) => (
                 <li key={item.name} className={styles.mobileNavItem}>
                   <Link
                     to={item.href}
-                    onClick={handleNavbarClose}
+                    onClick={handlePanelClose}
                     className={styles.mobileNavLink}
                   >
                     {item.name}
