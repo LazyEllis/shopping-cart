@@ -14,7 +14,7 @@ export const toTitleCase = (string) =>
   );
 
 export const matchesSearchTerm = (text, searchTerm) => {
-  const normalizedText = formatProductText(text.toLowerCase());
+  const normalizedText = text.toLowerCase();
   const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
   return (
