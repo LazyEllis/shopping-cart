@@ -4,11 +4,7 @@ import PropTypes from "prop-types";
 
 const MobileMenu = ({ onClose, children }) => (
   <div className={styles.mobileMenu}>
-    <button
-      className={styles.closeButton}
-      aria-label="Cancel"
-      onClick={onClose}
-    >
+    <button className={styles.closeButton} aria-label="Close" onClick={onClose}>
       <X size={18} />
     </button>
     {children}

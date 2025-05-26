@@ -9,7 +9,12 @@ const BagPanelItem = ({ item, onClose }) => (
       <div className={styles.productText}>
         {formatProductText(item.title)}
         {item.quantity > 1 && (
-          <div className={styles.productQuantity}>&times;{item.quantity}</div>
+          <div
+            className={styles.productQuantity}
+            aria-label={`quantity ${item.quantity}`}
+          >
+            &times;{item.quantity}
+          </div>
         )}
       </div>
     </Link>

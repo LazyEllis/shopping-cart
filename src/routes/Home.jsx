@@ -26,11 +26,20 @@ const Home = () => {
                 {toTitleCase(product.category)}
               </p>
             </div>
-            <Link to={`store/${product.id}`} className={styles.actionLink}>
+            <Link
+              to={`store/${product.id}`}
+              className={styles.actionLink}
+              aria-label={`Learn more, ${formatProductText(product.title)}`}
+            >
               Learn more
             </Link>
           </div>
-          <img src={product.image} alt="" className={styles.productImage} />
+          <img
+            src={product.image}
+            alt=""
+            className={styles.productImage}
+            data-testid={`product-image-${product.id}`}
+          />
         </div>
       ))}
     </section>

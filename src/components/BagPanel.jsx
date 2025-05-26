@@ -4,10 +4,20 @@ import styles from "../styles/BagPanel.module.css";
 import BagPanelItem from "./BagPanelItem";
 
 const BagPanel = ({ bag, onClose, loading, error }) => {
-  if (loading || error) {
+  if (loading) {
     return (
       <div className={styles.container}>
         <LoadingIcon />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.container}>
+        <p className={styles.error}>
+          There was an error loading your bag items. Please try again.
+        </p>
       </div>
     );
   }

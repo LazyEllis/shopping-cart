@@ -4,34 +4,13 @@ import BagItem from "../components/BagItem";
 import styles from "../styles/Bag.module.css";
 
 const Bag = () => {
-  const { bag, bagWithProductDetails, setBag } = useOutletContext();
+  const { bag, handleIncrement, handleDecrement, handleDelete } =
+    useOutletContext();
 
-  const totalPrice = bagWithProductDetails.reduce(
+  const totalPrice = bag.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
-
-  const handleDelete = (id) => {
-    setBag(bag.filter((item) => item.id !== id));
-  };
-
-  const handleIncrement = (id) => {
-    setBag(
-      bag.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const handleDecrement = (id) => {
-    setBag(
-      bag.map((item) =>
-        item.quantity > 1 && item.id === id
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
 
   return (
     <div className={styles.container}>
@@ -44,7 +23,7 @@ const Bag = () => {
       {bag.length > 0 ? (
         <>
           <ul className={styles.bagItems}>
-            {bagWithProductDetails.map((item) => (
+            {bag.map((item) => (
               <BagItem
                 item={item}
                 onIncrement={() => handleIncrement(item.id)}

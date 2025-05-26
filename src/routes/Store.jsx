@@ -14,14 +14,14 @@ const Store = () => {
 
   if (category) {
     categorizedProducts = products.filter(
-      (product) => product.category === category // If the URL contains a category query, filter the products by that category.
+      (product) => product.category === category
     );
   } else if (searchTerm) {
-    categorizedProducts = products.filter(
-      (product) => matchesSearchTerm(product.title, searchTerm) // If the URL contains a search query, filter products based on the search term.
+    categorizedProducts = products.filter((product) =>
+      matchesSearchTerm(product.title, searchTerm)
     );
   } else {
-    categorizedProducts = groupBy(products, "category"); // If neither query is present, group the products by their category.
+    categorizedProducts = groupBy(products, "category");
   }
 
   return (

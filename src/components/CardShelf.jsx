@@ -10,10 +10,18 @@ const CardShelf = ({ heading, products, isSearch = false }) => (
         {products.length} results found
       </div>
     )}
-    {isSearch && products.length === 0 ? (
+    {products.length === 0 ? (
       <div className={styles.nullSearch}>
-        <span>Sorry, no matches were found.</span>{" "}
-        <span>Try a new search or use our suggestions.</span>
+        <span>
+          {isSearch
+            ? "Sorry, no matches were found."
+            : "Sorry, there are no products in this category."}
+        </span>{" "}
+        <span>
+          {isSearch
+            ? "Try a new search or use our suggestions."
+            : "Try browsing other categories or check back soon for new arrivals."}
+        </span>
       </div>
     ) : (
       <div className={styles.cardShelf}>
@@ -21,6 +29,7 @@ const CardShelf = ({ heading, products, isSearch = false }) => (
           <Link
             to={`/store/${product.id}`}
             className={styles.card}
+            aria-label={formatProductText(product.title)}
             key={product.id}
           >
             <div className={styles.cardText}>
@@ -30,7 +39,12 @@ const CardShelf = ({ heading, products, isSearch = false }) => (
               <div>{formatCurrency(product.price)}</div>
             </div>
             <div className={styles.imageContainer}>
-              <img src={product.image} alt="" className={styles.productImage} />
+              <img
+                src={product.image}
+                alt=""
+                className={styles.productImage}
+                data-testid={`product-${product.id}-image`}
+              />
             </div>
           </Link>
         ))}

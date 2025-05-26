@@ -9,7 +9,7 @@ const SearchPanel = ({ onClose, products }) => {
   const navigate = useNavigate();
 
   const searchResults = products.filter((product) =>
-    matchesSearchTerm(product.title, searchTerm)
+    matchesSearchTerm(formatProductText(product.title), searchTerm)
   );
 
   const handleChange = (e) => setSearchTerm(e.target.value);

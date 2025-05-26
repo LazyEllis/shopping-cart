@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useIsDesktop } from "../utils/useIsDesktop";
 import { Link, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu } from "lucide-react";
+import { NAV_LINKS, PANELS } from "../constants";
 import SearchPanel from "./SearchPanel";
 import BagPanel from "./BagPanel";
 import MobileMenu from "./MobileMenu";
@@ -9,22 +10,6 @@ import Flyout from "./Flyout";
 import MainContent from "./MainContent";
 import styles from "../styles/Layout.module.css";
 import flyoutStyles from "../styles/Flyout.module.css";
-
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Store", href: "store" },
-  { name: "Men's Clothing", href: "store?category=men's%20clothing" },
-  { name: "Jewelery", href: "store?category=jewelery" },
-  { name: "Electronics", href: "store?category=electronics" },
-  { name: "Women's Clothing", href: "store?category=women's%20clothing" },
-];
-
-const PANELS = {
-  NONE: "none",
-  SEARCH: "search",
-  BAG: "bag",
-  MENU: "menu",
-};
 
 const Layout = ({ children }) => {
   const [activePanel, setActivePanel] = useState(PANELS.NONE);
@@ -53,6 +38,43 @@ const Layout = ({ children }) => {
 
   const handlePanelClose = () => {
     setActivePanel(PANELS.NONE);
+  };
+
+  const handleAddToBag = (id) => {
+    const isInBag = bag.some((product) => product.id === parseInt(id));
+
+    if (isInBag) {
+      const updatedBag = bag.map((product) =>
+        product.id === parseInt(id)
+          ? { ...product, quantity: product.quantity + 1 }
+          : product
+      );
+      setBag(updatedBag);
+    } else {
+      setBag([...bag, { id: parseInt(id), quantity: 1 }]);
+    }
+  };
+
+  const handleDelete = (id) => {
+    setBag(bag.filter((item) => item.id !== id));
+  };
+
+  const handleIncrement = (id) => {
+    setBag(
+      bag.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  const handleDecrement = (id) => {
+    setBag(
+      bag.map((item) =>
+        item.quantity > 1 && item.id === id
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
   };
 
   useEffect(() => {
@@ -103,7 +125,7 @@ const Layout = ({ children }) => {
             Shopzilla
           </Link>
           <ul className={`${styles.navList} ${styles.desktopMenu}`}>
-            {navigation.map((item) => (
+            {NAV_LINKS.map((item) => (
               <li key={item.name} className={styles.navItem}>
                 <Link to={item.href} className={styles.navLink}>
                   {item.name}
@@ -115,8 +137,7 @@ const Layout = ({ children }) => {
             <li className={styles.navItem}>
               <button
                 className={styles.navButton}
-                aria-label="Search"
-                data-role="Search"
+                aria-label="Search Shopzilla"
                 onClick={() => handlePanelToggle(PANELS.SEARCH)}
               >
                 <Search size={17} />
@@ -125,8 +146,7 @@ const Layout = ({ children }) => {
             <li className={styles.navItem}>
               <button
                 className={styles.navButton}
-                aria-label="Bag"
-                data-role="Bag"
+                aria-label="Shopping Bag"
                 onClick={() => handlePanelToggle(PANELS.BAG)}
               >
                 <ShoppingBag size={17} />
@@ -179,7 +199,7 @@ const Layout = ({ children }) => {
         {activePanel === PANELS.MENU && (
           <MobileMenu onClose={handlePanelClose}>
             <ul className={styles.mobileNavList}>
-              {navigation.map((item) => (
+              {NAV_LINKS.map((item) => (
                 <li key={item.name} className={styles.mobileNavItem}>
                   <Link
                     to={item.href}
@@ -201,7 +221,14 @@ const Layout = ({ children }) => {
           <MainContent
             loading={loading}
             error={error}
-            context={{ products, bag, bagWithProductDetails, setBag }}
+            context={{
+              products,
+              bag: bagWithProductDetails,
+              handleAddToBag,
+              handleDelete,
+              handleIncrement,
+              handleDecrement,
+            }}
           />
         )}
       </main>
