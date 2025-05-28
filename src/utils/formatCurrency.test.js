@@ -1,19 +1,24 @@
 import { test, expect } from "vitest";
-import { formatProductText } from "./utils";
+import { formatCurrency } from "./utils";
 
-test("returns the original string if it contains only one word", () => {
-  expect(formatProductText("Oracle")).toBe("Oracle");
+test("should format zero as $0.00", () => {
+  expect(formatCurrency(0)).toBe("$0.00");
 });
 
-test("returns the original string if it contains exactly three words", () => {
-  expect(formatProductText("Red Riding Hood")).toBe("Red Riding Hood");
+test("should format whole numbers with two decimal places", () => {
+  expect(formatCurrency(50)).toBe("$50.00");
 });
 
-test("truncates text to the first three words if more than three words are present", () => {
-  expect(formatProductText("Men's Casual Premium White T-Shirt")).toBe(
-    "Men's Casual Premium"
-  );
-  expect(formatProductText("Injustice 2 Ultimate Edition")).toBe(
-    "Injustice 2 Ultimate"
-  );
+test("should preserve existing decimal places when two or fewer", () => {
+  expect(formatCurrency(7.25)).toBe("$7.25");
+});
+
+test("should round to two decimal places when more than two provided", () => {
+  expect(formatCurrency(45.552)).toBe("$45.55");
+  expect(formatCurrency(45.558)).toBe("$45.56");
+});
+
+test("should add thousands separators for large numbers", () => {
+  expect(formatCurrency(1000)).toBe("$1,000.00");
+  expect(formatCurrency(72000000)).toBe("$72,000,000.00");
 });
