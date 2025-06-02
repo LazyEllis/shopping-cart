@@ -6,10 +6,6 @@ import { products } from "../__fixtures__/data";
 import { NAV_LINKS } from "../constants";
 import Layout from "./Layout";
 
-vi.mock("./MobileMenu", () => ({
-  default: ({ children }) => <div data-testid="panel">{children}</div>,
-}));
-
 vi.mock("./MainContent", () => ({
   default: () => <div data-testid="main-content">Main Content</div>,
 }));
@@ -51,7 +47,9 @@ test("should start with a clean interface with no panels open", async () => {
     );
   });
 
-  expect(screen.queryByTestId("panel")).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole("button", { name: /close/i })
+  ).not.toBeInTheDocument();
 });
 
 test("should allow users to toggle the search panel on and off", async () => {
@@ -124,6 +122,49 @@ test("should allow users to toggle the mobile navigation menu", async () => {
   expect(screen.queryByTestId("panel")).not.toBeInTheDocument();
 });
 
+test("renders blur overlay in the search and bag menu", async () => {
+  const user = userEvent.setup();
+
+  await act(async () => {
+    render(
+      <MemoryRouter>
+        <Layout />
+      </MemoryRouter>
+    );
+  });
+
+  const bagButton = screen.getByRole("button", {
+    name: /shopping bag/i,
+  });
+
+  const searchButton = screen.getByRole("button", {
+    name: /search shopzilla/i,
+  });
+
+  await user.click(bagButton);
+  expect(screen.getByTestId("blur")).toBeInTheDocument();
+
+  await user.click(searchButton);
+  expect(screen.getByTestId("blur")).toBeInTheDocument();
+});
+
+test("doesn't render blur overlay in the mobile navigation menu", async () => {
+  const user = userEvent.setup();
+
+  await act(async () => {
+    render(
+      <MemoryRouter>
+        <Layout />
+      </MemoryRouter>
+    );
+  });
+
+  const menuButton = screen.getByRole("button", { name: /menu/i });
+
+  await user.click(menuButton);
+  expect(screen.queryByTestId("blur")).not.toBeInTheDocument();
+});
+
 test("should close any open panel when user clicks outside of it", async () => {
   const user = userEvent.setup();
 
@@ -145,6 +186,30 @@ test("should close any open panel when user clicks outside of it", async () => {
   expect(screen.getByRole("searchbox")).toBeInTheDocument();
 
   await user.click(main);
+  expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+});
+
+test("should close panel when the panel's close button is clicked", async () => {
+  const user = userEvent.setup();
+
+  await act(async () => {
+    render(
+      <MemoryRouter>
+        <Layout />
+      </MemoryRouter>
+    );
+  });
+
+  const searchButton = screen.getByRole("button", {
+    name: /search shopzilla/i,
+  });
+
+  await user.click(searchButton);
+  expect(screen.getByRole("searchbox")).toBeInTheDocument();
+
+  const closeButton = screen.getByRole("button", { name: /close/i });
+
+  await user.click(closeButton);
   expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
 });
 

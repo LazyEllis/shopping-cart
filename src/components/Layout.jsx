@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
-import { useIsDesktop } from "../utils/useIsDesktop";
 import { Link, useLocation } from "react-router-dom";
-import { Search, ShoppingBag, Menu } from "lucide-react";
+import { Search, ShoppingBag, Menu, X } from "lucide-react";
 import { NAV_LINKS, PANELS } from "../constants";
 import SearchPanel from "./SearchPanel";
 import BagPanel from "./BagPanel";
-import MobileMenu from "./MobileMenu";
-import Flyout from "./Flyout";
 import MainContent from "./MainContent";
 import styles from "../styles/Layout.module.css";
-import flyoutStyles from "../styles/Flyout.module.css";
 
 const Layout = ({ children }) => {
   const [activePanel, setActivePanel] = useState(PANELS.NONE);
@@ -17,21 +13,10 @@ const Layout = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const isDesktop = useIsDesktop();
+
   const location = useLocation();
 
-  const bagWithProductDetails = bag.map((item) => ({
-    ...item,
-    ...products.find((product) => product.id === item.id),
-  }));
-
-  const mainClassNames = [
-    location.pathname !== "/" ? styles.subPageMain : "",
-    loading || error || children ? styles.loadingOrError : "",
-  ]
-    .join(" ")
-    .trim();
-
+  // Panel Handlers
   const handlePanelToggle = (panel) => {
     setActivePanel(activePanel === panel ? PANELS.NONE : panel);
   };
@@ -40,6 +25,7 @@ const Layout = ({ children }) => {
     setActivePanel(PANELS.NONE);
   };
 
+  // Bag Handlers
   const handleAddToBag = (id) => {
     const isInBag = bag.some((product) => product.id === parseInt(id));
 
@@ -77,17 +63,32 @@ const Layout = ({ children }) => {
     );
   };
 
+  // Derived State
+  const bagWithProductDetails = bag.map((item) => ({
+    ...item,
+    ...products.find((product) => product.id === item.id),
+  }));
+
+  const mainClassName = [
+    location.pathname !== "/" && styles.subPageMain,
+    (loading || error || children) && styles.loadingOrError,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const isPanelFlyout = activePanel !== PANELS.MENU;
+
+  const panelClassName = [styles.panel, isPanelFlyout && styles.flyout]
+    .filter(Boolean)
+    .join(" ");
+
+  // Effects
   useEffect(() => {
-    if (
-      activePanel === PANELS.NONE ||
-      activePanel === PANELS.MENU ||
-      !isDesktop
-    )
-      return;
+    if (activePanel === PANELS.NONE) return;
 
     const handleClickOutside = (e) => {
       if (
-        e.target.closest(`.${flyoutStyles.flyout}`) ||
+        e.target.closest(`.${styles.panel}`) ||
         e.target.closest(`.${styles.navButton}`)
       )
         return;
@@ -97,7 +98,7 @@ const Layout = ({ children }) => {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [activePanel, isDesktop]);
+  }, [activePanel]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -164,57 +165,53 @@ const Layout = ({ children }) => {
           </ul>
         </div>
 
-        {activePanel === PANELS.SEARCH &&
-          (isDesktop ? (
-            <Flyout>
-              <SearchPanel onClose={handlePanelClose} products={products} />
-            </Flyout>
-          ) : (
-            <MobileMenu onClose={handlePanelClose}>
-              <SearchPanel onClose={handlePanelClose} products={products} />
-            </MobileMenu>
-          ))}
+        {activePanel !== PANELS.NONE && (
+          <>
+            <div className={panelClassName} data-testid="panel">
+              <button
+                className={styles.closeButton}
+                aria-label="Close"
+                onClick={handlePanelClose}
+              >
+                <X size={18} />
+              </button>
 
-        {activePanel === PANELS.BAG &&
-          (isDesktop ? (
-            <Flyout>
-              <BagPanel
-                bag={bagWithProductDetails}
-                onClose={handlePanelClose}
-                loading={loading}
-                error={error}
-              />
-            </Flyout>
-          ) : (
-            <MobileMenu onClose={handlePanelClose}>
-              <BagPanel
-                bag={bagWithProductDetails}
-                onClose={handlePanelClose}
-                loading={loading}
-                error={error}
-              />
-            </MobileMenu>
-          ))}
+              {activePanel === PANELS.SEARCH && (
+                <SearchPanel onClose={handlePanelClose} products={products} />
+              )}
 
-        {activePanel === PANELS.MENU && (
-          <MobileMenu onClose={handlePanelClose}>
-            <ul className={styles.mobileNavList}>
-              {NAV_LINKS.map((item) => (
-                <li key={item.name} className={styles.mobileNavItem}>
-                  <Link
-                    to={item.href}
-                    onClick={handlePanelClose}
-                    className={styles.mobileNavLink}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </MobileMenu>
+              {activePanel === PANELS.BAG && (
+                <BagPanel
+                  bag={bagWithProductDetails}
+                  onClose={handlePanelClose}
+                  loading={loading}
+                  error={error}
+                />
+              )}
+
+              {activePanel === PANELS.MENU && (
+                <ul className={styles.mobileNavList}>
+                  {NAV_LINKS.map((item) => (
+                    <li key={item.name} className={styles.mobileNavItem}>
+                      <Link
+                        to={item.href}
+                        onClick={handlePanelClose}
+                        className={styles.mobileNavLink}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {isPanelFlyout && (
+              <div data-testid="blur" className={styles.blur}></div>
+            )}
+          </>
         )}
       </nav>
-      <main className={mainClassNames || undefined}>
+      <main className={mainClassName || undefined}>
         {children ? (
           children
         ) : (

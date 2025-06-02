@@ -1,0 +1,45 @@
+.panel {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  inset: 0;
+  background-color: var(--secondary-bg-color);
+  font-size: 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.closeButton {
+  align-self: flex-end;
+}
+
+@media (width >= 48rem) {
+  .panel {
+    display: none;
+  }
+
+  .panel.flyout {
+    display: block;
+    height: initial;
+    inset: initial;
+
+    .closeButton {
+      display: none;
+    }
+
+    > * {
+      padding: 32px 22px 80px;
+      max-width: 1024px;
+      margin: auto;
+    }
+  }
+
+  .blur {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: calc(100vh - 48px);
+    background: #e8e8ed66;
+    backdrop-filter: blur(20px);
+  }
+}
