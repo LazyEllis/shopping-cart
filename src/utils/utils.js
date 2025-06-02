@@ -26,6 +26,8 @@ export const matchesSearchTerm = (text, searchTerm) => {
   );
 };
 
+export const encodeQuery = (query) => query.split(" ").join("+");
+
 export const groupBy = (items, groupingKey) =>
   items.reduce((result, item) => {
     // Extract the value to group by from the current item

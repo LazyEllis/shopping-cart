@@ -174,3 +174,12 @@ test("submits search and resets form", async () => {
   expect(input).toHaveValue("");
   expect(handleClose).toHaveBeenCalled();
 });
+
+test("encodes queries with multiple words", async () => {
+  const { user, input, submitButton } = setup();
+
+  await user.type(input, "blue jeans");
+  await user.click(submitButton);
+
+  expect(navigate).toHaveBeenCalledWith("/store?search=blue+jeans");
+});

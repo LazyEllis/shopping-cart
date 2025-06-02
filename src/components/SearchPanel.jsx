@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, CircleX, ArrowRight } from "lucide-react";
-import { matchesSearchTerm, formatProductText } from "../utils/utils";
+import {
+  matchesSearchTerm,
+  formatProductText,
+  encodeQuery,
+} from "../utils/utils";
 import styles from "../styles/SearchPanel.module.css";
 
 const SearchPanel = ({ onClose, products }) => {
@@ -18,7 +22,7 @@ const SearchPanel = ({ onClose, products }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/store?search=${searchTerm}`);
+    navigate(`/store?search=${encodeQuery(searchTerm)}`);
     setSearchTerm("");
     onClose();
   };
