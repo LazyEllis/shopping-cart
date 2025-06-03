@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu, X } from "lucide-react";
 import { NAV_LINKS, PANELS } from "../constants";
@@ -13,6 +13,9 @@ const Layout = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const buttonsRef = useRef([]);
+  const panelRef = useRef(null);
 
   const location = useLocation();
 
@@ -64,6 +67,8 @@ const Layout = ({ children }) => {
   };
 
   // Derived State
+  const isPanelFlyout = activePanel !== PANELS.MENU;
+
   const bagWithProductDetails = bag.map((item) => ({
     ...item,
     ...products.find((product) => product.id === item.id),
@@ -76,8 +81,6 @@ const Layout = ({ children }) => {
     .filter(Boolean)
     .join(" ");
 
-  const isPanelFlyout = activePanel !== PANELS.MENU;
-
   const panelClassName = [styles.panel, isPanelFlyout && styles.flyout]
     .filter(Boolean)
     .join(" ");
@@ -88,8 +91,8 @@ const Layout = ({ children }) => {
 
     const handleClickOutside = (e) => {
       if (
-        e.target.closest(`.${styles.panel}`) ||
-        e.target.closest(`.${styles.navButton}`)
+        buttonsRef.current.some((ref) => ref.contains(e.target)) ||
+        panelRef.current.contains(e.target)
       )
         return;
 
@@ -140,6 +143,7 @@ const Layout = ({ children }) => {
                 className={styles.navButton}
                 aria-label="Search Shopzilla"
                 onClick={() => handlePanelToggle(PANELS.SEARCH)}
+                ref={(ref) => (buttonsRef.current[0] = ref)}
               >
                 <Search size={17} />
               </button>
@@ -149,6 +153,7 @@ const Layout = ({ children }) => {
                 className={styles.navButton}
                 aria-label="Shopping Bag"
                 onClick={() => handlePanelToggle(PANELS.BAG)}
+                ref={(ref) => (buttonsRef.current[1] = ref)}
               >
                 <ShoppingBag size={17} />
               </button>
@@ -158,6 +163,7 @@ const Layout = ({ children }) => {
                 className={styles.navButton}
                 aria-label="Menu"
                 onClick={() => handlePanelToggle(PANELS.MENU)}
+                ref={(ref) => (buttonsRef.current[2] = ref)}
               >
                 <Menu size={17} />
               </button>
@@ -167,7 +173,7 @@ const Layout = ({ children }) => {
 
         {activePanel !== PANELS.NONE && (
           <>
-            <div className={panelClassName} data-testid="panel">
+            <div className={panelClassName} ref={panelRef} data-testid="panel">
               <button
                 className={styles.closeButton}
                 aria-label="Close"
