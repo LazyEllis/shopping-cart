@@ -15,9 +15,15 @@ const BagPanel = ({ bag, onClose, loading, error }) => {
   if (error) {
     return (
       <div className={styles.container}>
-        <p className={styles.error}>
-          There was an error loading your bag items. Please try again.
-        </p>
+        <div className={styles.error}>
+          <div className={styles.errorTitle}>Unable to load your bag</div>
+          <div className={styles.errorMessage}>
+            Something went wrong. Please try again.
+          </div>
+          <Link to="/store" onClick={onClose} className={styles.errorLink}>
+            Continue Shopping
+          </Link>
+        </div>
       </div>
     );
   }

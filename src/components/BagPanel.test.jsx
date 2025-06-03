@@ -127,9 +127,29 @@ test("shows error message when bag fails to load", () => {
 
   render(
     <MemoryRouter>
-      <BagPanel bag={bag} onClose={handleClose} loading={false} error={error} />
+      <BagPanel bag={[]} onClose={handleClose} loading={false} error={error} />
     </MemoryRouter>
   );
 
-  expect(screen.getByText(/error loading your bag items/i)).toBeInTheDocument();
+  expect(screen.getByText(/unable to load your bag/i)).toBeInTheDocument();
+  expect(
+    screen.getByRole("link", { name: /continue shopping/i })
+  ).toHaveAttribute("href", "/store");
+});
+
+test("closes panel when continue shopping link is clicked", async () => {
+  const handleClose = vi.fn();
+  const user = userEvent.setup();
+  const error = new Error("Failed to load bag");
+
+  render(
+    <MemoryRouter>
+      <BagPanel bag={[]} onClose={handleClose} loading={false} error={error} />
+    </MemoryRouter>
+  );
+
+  const continueLink = screen.getByRole("link", { name: /continue shopping/i });
+  await user.click(continueLink);
+
+  expect(handleClose).toHaveBeenCalled();
 });
