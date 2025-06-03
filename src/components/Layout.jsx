@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu, X } from "lucide-react";
 import { NAV_LINKS, PANELS } from "../constants";
+import { classNames } from "../utils/utils";
 import SearchPanel from "./SearchPanel";
 import BagPanel from "./BagPanel";
 import MainContent from "./MainContent";
@@ -74,16 +75,15 @@ const Layout = ({ children }) => {
     ...products.find((product) => product.id === item.id),
   }));
 
-  const mainClassName = [
+  const mainClassName = classNames(
     location.pathname !== "/" && styles.subPageMain,
-    (loading || error || children) && styles.loadingOrError,
-  ]
-    .filter(Boolean)
-    .join(" ");
+    (loading || error || children) && styles.loadingOrError
+  );
 
-  const panelClassName = [styles.panel, isPanelFlyout && styles.flyout]
-    .filter(Boolean)
-    .join(" ");
+  const panelClassName = classNames(
+    styles.panel,
+    isPanelFlyout && styles.flyout
+  );
 
   // Effects
   useEffect(() => {

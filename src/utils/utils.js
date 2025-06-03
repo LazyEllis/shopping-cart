@@ -41,3 +41,5 @@ export const groupBy = (items, groupingKey) =>
 
     return result;
   }, {});
+
+export const classNames = (...classes) => classes.filter(Boolean).join(" ");
