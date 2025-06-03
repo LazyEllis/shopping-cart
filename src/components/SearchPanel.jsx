@@ -33,7 +33,6 @@ const SearchPanel = ({ onClose, products }) => {
         className={styles.searchForm}
         onReset={handleReset}
         onSubmit={handleSubmit}
-        role="search"
       >
         <input
           type="search"

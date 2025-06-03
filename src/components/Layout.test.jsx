@@ -38,7 +38,7 @@ test("should render complete navigation with logo and all menu links", async () 
   });
 });
 
-test("should start with a clean interface with no panels open", async () => {
+test("should not show any open panels on initial render", async () => {
   await act(async () => {
     render(
       <MemoryRouter>
@@ -52,7 +52,7 @@ test("should start with a clean interface with no panels open", async () => {
   ).not.toBeInTheDocument();
 });
 
-test("should allow users to toggle the search panel on and off", async () => {
+test("should toggle the search panel when the search button is clicked", async () => {
   const user = userEvent.setup();
 
   await act(async () => {
@@ -76,7 +76,7 @@ test("should allow users to toggle the search panel on and off", async () => {
   expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
 });
 
-test("should allow users to toggle the shopping bag panel on and off", async () => {
+test("should toggle the shopping bag panel when the bag button is clicked", async () => {
   const user = userEvent.setup();
 
   await act(async () => {
@@ -100,7 +100,7 @@ test("should allow users to toggle the shopping bag panel on and off", async () 
   ).not.toBeInTheDocument();
 });
 
-test("should allow users to toggle the mobile navigation menu", async () => {
+test("should toggle the mobile navigation menu when the menu button is clicked", async () => {
   const user = userEvent.setup();
 
   await act(async () => {
@@ -122,7 +122,7 @@ test("should allow users to toggle the mobile navigation menu", async () => {
   expect(screen.queryByTestId("panel")).not.toBeInTheDocument();
 });
 
-test("renders blur overlay in the search and bag menu", async () => {
+test("should display blur overlay when search or bag panel is open", async () => {
   const user = userEvent.setup();
 
   await act(async () => {
@@ -148,7 +148,7 @@ test("renders blur overlay in the search and bag menu", async () => {
   expect(screen.getByTestId("blur")).toBeInTheDocument();
 });
 
-test("doesn't render blur overlay in the mobile navigation menu", async () => {
+test("should not display blur overlay when mobile navigation menu is open", async () => {
   const user = userEvent.setup();
 
   await act(async () => {
@@ -165,7 +165,7 @@ test("doesn't render blur overlay in the mobile navigation menu", async () => {
   expect(screen.queryByTestId("blur")).not.toBeInTheDocument();
 });
 
-test("should close any open panel when user clicks outside of it", async () => {
+test("should close open panel when clicking outside the panel area", async () => {
   const user = userEvent.setup();
 
   await act(async () => {
@@ -189,7 +189,7 @@ test("should close any open panel when user clicks outside of it", async () => {
   expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
 });
 
-test("should close panel when the panel's close button is clicked", async () => {
+test("should close panel when its close button is clicked", async () => {
   const user = userEvent.setup();
 
   await act(async () => {

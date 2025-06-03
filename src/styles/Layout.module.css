@@ -1,7 +1,3 @@
-.navContainer:has(.nav:not(:only-child)) + .loadingOrError > * {
-  animation: none;
-}
-
 .nav {
   display: flex;
   margin: auto;
@@ -83,6 +79,10 @@
   height: calc(100vh - 48px);
 }
 
+.navContainer:has(.nav:not(:only-child)) + .loadingOrError > * {
+  animation: none;
+}
+
 @media (width >= 48rem) {
   .navContainer:has(.nav:not(:only-child)) {
     background-color: var(--secondary-bg-color);
@@ -96,7 +96,7 @@
     }
   }
 
-  .hamburgerMenu {
+  .hamburgerNavItem {
     display: none;
   }
 
@@ -112,21 +112,21 @@
 
   .panel {
     display: none;
-  }
 
-  .panel.flyout {
-    display: block;
-    height: initial;
-    inset: initial;
+    &.flyout {
+      display: block;
+      height: initial;
+      inset: initial;
 
-    .closeButton {
-      display: none;
-    }
+      .closeButton {
+        display: none;
+      }
 
-    > * {
-      padding: 32px 22px 80px;
-      max-width: 1024px;
-      margin: auto;
+      > * {
+        padding: 32px 22px 80px;
+        max-width: 1024px;
+        margin: auto;
+      }
     }
   }
 

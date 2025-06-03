@@ -18,7 +18,7 @@ const BagItem = ({ item, onIncrement, onDecrement, onDelete }) => (
             >
               <CircleMinus className={styles.buttonIcon} size={18} />
             </button>
-            <div aria-live="polite">{item.quantity}</div>
+            <div>{item.quantity}</div>
             <button
               className={styles.quantityToggle}
               onClick={onIncrement}

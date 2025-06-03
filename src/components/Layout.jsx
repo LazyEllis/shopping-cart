@@ -138,7 +138,7 @@ const Layout = ({ children }) => {
             ))}
           </ul>
           <ul className={styles.navList}>
-            <li className={styles.navItem}>
+            <li>
               <button
                 className={styles.navButton}
                 aria-label="Search Shopzilla"
@@ -148,7 +148,7 @@ const Layout = ({ children }) => {
                 <Search size={17} />
               </button>
             </li>
-            <li className={styles.navItem}>
+            <li>
               <button
                 className={styles.navButton}
                 aria-label="Shopping Bag"
@@ -158,7 +158,7 @@ const Layout = ({ children }) => {
                 <ShoppingBag size={17} />
               </button>
             </li>
-            <li className={`${styles.navItem} ${styles.hamburgerMenu}`}>
+            <li className={styles.hamburgerNavItem}>
               <button
                 className={styles.navButton}
                 aria-label="Menu"
@@ -218,9 +218,7 @@ const Layout = ({ children }) => {
         )}
       </nav>
       <main className={mainClassName || undefined}>
-        {children ? (
-          children
-        ) : (
+        {children ?? (
           <MainContent
             loading={loading}
             error={error}
