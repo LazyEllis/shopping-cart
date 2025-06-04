@@ -66,6 +66,7 @@ src/
   routes/          # Route components (pages)
   styles/          # CSS Modules for styling
   utils/           # Utility functions and hooks
+  __fixtures__/    # Test fixtures and mock data
   main.jsx         # App entry point
   routes.jsx       # Route definitions
 ```
@@ -78,7 +79,6 @@ src/
 - [CSS Modules](https://github.com/css-modules/css-modules)
 - [Vitest](https://vitest.dev/) & [Testing Library](https://testing-library.com/)
 - [Lucide Icons](https://lucide.dev/)
-- [CSS Modules](https://github.com/css-modules/css-modules)
 
 ## License
 
