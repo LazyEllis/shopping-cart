@@ -10,19 +10,37 @@ const Store = () => {
   const category = searchParams.get("category");
   const searchTerm = searchParams.get("search");
 
-  let categorizedProducts;
+  const categorizedProducts = (() => {
+    if (category) {
+      return [
+        {
+          heading: category,
+          products: products.filter((p) => p.category === category),
+          isSearch: false,
+        },
+      ];
+    }
 
-  if (category) {
-    categorizedProducts = products.filter(
-      (product) => product.category === category
+    if (searchTerm) {
+      return [
+        {
+          heading: searchTerm,
+          products: products.filter((p) =>
+            matchesSearchTerm(p.title, searchTerm)
+          ),
+          isSearch: true,
+        },
+      ];
+    }
+
+    return Object.entries(groupBy(products, "category")).map(
+      ([category, prods]) => ({
+        heading: category,
+        products: prods,
+        isSearch: false,
+      })
     );
-  } else if (searchTerm) {
-    categorizedProducts = products.filter((product) =>
-      matchesSearchTerm(product.title, searchTerm)
-    );
-  } else {
-    categorizedProducts = groupBy(products, "category");
-  }
+  })();
 
   return (
     <>
@@ -33,21 +51,14 @@ const Store = () => {
         </span>
       </header>
       <div className={styles.container}>
-        {category || searchTerm ? (
+        {categorizedProducts.map(({ heading, products, isSearch }) => (
           <CardShelf
-            heading={category || searchTerm}
-            products={categorizedProducts}
-            isSearch={searchTerm}
+            heading={heading}
+            products={products}
+            isSearch={isSearch}
+            key={heading}
           />
-        ) : (
-          Object.keys(categorizedProducts).map((category) => (
-            <CardShelf
-              heading={category}
-              products={categorizedProducts[category]}
-              key={category}
-            />
-          ))
-        )}
+        ))}
       </div>
     </>
   );
